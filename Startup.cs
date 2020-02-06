@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using fix_it_tracker_back_end.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace fix_it_tracker_back_end
 {
@@ -25,6 +27,11 @@ namespace fix_it_tracker_back_end
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connectionString =
+                Configuration["ConnectionStrings:DefaultConnection"];
+            services.AddDbContext<DataContext>(options =>
+            options.UseSqlServer(connectionString));
+
             services.AddControllers();
         }
 
