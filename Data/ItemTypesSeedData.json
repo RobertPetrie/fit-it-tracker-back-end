@@ -1,0 +1,27 @@
+[
+  {
+    "Name": "OptiPlex",
+    "Model": "3060 SFF",
+    "Manufacturer": "Dell"
+  },
+  {
+    "Name": "MacBook Pro 16 Inch",
+    "Model": " MVVJ2LL/A",
+    "Manufacturer": "Apple"
+  },
+  {
+    "Name": "Galaxy Tab A 8",
+    "Model": "SM-T290NZKAXAC",
+    "Manufacturer": "Samsung"
+  },
+  {
+    "Name": "G8X ThinQ Dual Screen",
+    "Model": "LG G8X ThinQ",
+    "Manufacturer": "LG"
+  },
+  {
+    "Name": "65 Inch  UHD HDR LED TV",
+    "Model": "XBR65X950G",
+    "Manufacturer": "Sony"
+  }
+]

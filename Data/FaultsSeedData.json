@@ -1,0 +1,30 @@
+[
+  {
+    "Name": "Dead",
+    "Description": "Will not turn on."
+  },
+  {
+    "Name": "Black Screen",
+    "Description": "Will turn on but the screen is black."
+  },
+  {
+    "Name": "Damaged Screen",
+    "Description": "The screen has physical damage."
+  },
+  {
+    "Name": "Damaged Keyboard",
+    "Description": "The keyboard has physical damage."
+  },
+  {
+    "Name": "Battery",
+    "Description": "The battery will not charge"
+  },
+  {
+    "Name": "Hot",
+    "Description": "Device gets very hot after being powered on."
+  },
+  {
+    "Name": "No Sound",
+    "Description": "The device has no sound."
+  }
+]
