@@ -1,0 +1,30 @@
+[
+  {
+    "Name": "New DC Power Jack",
+    "Description": "Replaced the DC power jack."
+  },
+  {
+    "Name": "MotherBoard",
+    "Description": "Replaced the motherboard with a new one."
+  },
+  {
+    "Name": "New Screen",
+    "Description": "Replaced the screen with a new one."
+  },
+  {
+    "Name": "Keyboard",
+    "Description": "Installed a new keyboard."
+  },
+  {
+    "Name": "Replacement Battery",
+    "Description": "Installed a new battery."
+  },
+  {
+    "Name": "Cleaned Fan",
+    "Description": "Removed all dust from the fan."
+  },
+  {
+    "Name": "Speaker",
+    "Description": "Replaced the internal speaker."
+  }
+]

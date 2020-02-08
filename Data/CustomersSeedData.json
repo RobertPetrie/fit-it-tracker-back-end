@@ -1,0 +1,37 @@
+[
+  {
+	"Name": "Trillum Health Partners - Credit Valley",
+	"Address": "2200 Eglinton Ave W",
+	"PostalCode": "L5M 2N1",
+	"City": "Mississauga",
+	"Province": "ON"
+  },
+  {
+	"Name": "The Rosedale Day School",
+	"Address": "131 Bloor St W #426",
+	"PostalCode": "M5S 1R1",
+	"City": "Toronto",
+	"Province": "ON"
+  },
+  {
+	"Name": "Marc-Favreau Library",
+	"Address": "500 Boulevard Rosemont",
+	"PostalCode": "H2S 0C4",
+	"City": "Montréal",
+	"Province": "QC"
+  },
+  {
+	"Name": "Samesun Vancouver Hotel",
+	"Address": "1018 Granville St",
+	"PostalCode": "V6Z 1L5",
+	"City": "Vancouver",
+	"Province": "BC"
+  },
+  {
+	"Name": "MacEwan University",
+	"Address": "10700 104 Ave NW",
+	"PostalCode": "T5J 4S2",
+	"City": "Edmonton",
+	"Province": "AB"
+  }  
+]
