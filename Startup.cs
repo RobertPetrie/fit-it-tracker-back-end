@@ -12,6 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using fix_it_tracker_back_end.Model;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using Newtonsoft.Json;
 
 namespace fix_it_tracker_back_end
 {
@@ -31,7 +33,7 @@ namespace fix_it_tracker_back_end
                 Configuration["ConnectionStrings:DefaultConnection"];
             services.AddDbContext<DataContext>(options =>
             options.UseSqlServer(connectionString));
-
+            services.AddAutoMapper(typeof(DataContext).Assembly);
             services.AddControllers();
         }
 
