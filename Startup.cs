@@ -31,6 +31,11 @@ namespace fix_it_tracker_back_end
         {
             string connectionString =
                 Configuration["ConnectionStrings:DefaultConnection"];
+            services.AddControllersWithViews()
+            .AddJsonOptions(opts =>
+            {
+                opts.JsonSerializerOptions.IgnoreNullValues = true;
+            });
             services.AddDbContext<DataContext>(options =>
             options.UseSqlServer(connectionString));
             services.AddAutoMapper(typeof(DataContext).Assembly);
