@@ -3,16 +3,16 @@ using System.Text.Json.Serialization;
 
 namespace fix_it_tracker_back_end.Dtos
 {
-    public class ResolutionGetDto
+    public class FaultGetDto
     {
-        [JsonPropertyName("resolutionId")]
-        public int ResolutionID { get; set; }
+        [JsonPropertyName("faultId")]
+        public int FaultID { get; set; }
 
-        [JsonPropertyName("resolutionName")]
+        [JsonPropertyName("faultName")]
         [Required, MaxLength(50)]
         public string Name { get; set; }
 
-        [JsonPropertyName("resolutionDescription")]
+        [JsonPropertyName("faultDescription")]
         [MaxLength(50)]
         public string Description { get; set; }
     }
