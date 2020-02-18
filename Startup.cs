@@ -14,6 +14,7 @@ using fix_it_tracker_back_end.Model;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Newtonsoft.Json;
+using Microsoft.OpenApi.Models;
 
 namespace fix_it_tracker_back_end
 {
@@ -40,6 +41,11 @@ namespace fix_it_tracker_back_end
             options.UseSqlServer(connectionString));
             services.AddAutoMapper(typeof(DataContext).Assembly);
             services.AddControllers();
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1",
+                    new OpenApiInfo { Title = "Fix IT Tracker API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +65,12 @@ namespace fix_it_tracker_back_end
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Fix IT Tracker API");
             });
         }
     }
