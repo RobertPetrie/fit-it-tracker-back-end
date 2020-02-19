@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using fix_it_tracker_back_end.Data.Repositories;
 using fix_it_tracker_back_end.Dtos;
 using fix_it_tracker_back_end.Model;
 using Microsoft.AspNetCore.Http;
@@ -15,10 +16,10 @@ namespace fix_it_tracker_back_end.Controllers
     [ApiController]
     public class RepairController : ControllerBase
     {
-        private DataContext _dataContext;
+        private IFixItTrackerRepository _dataContext;
         private readonly IMapper _mapper;
 
-        public RepairController(DataContext dataContext, IMapper mapper)
+        public RepairController(IFixItTrackerRepository dataContext, IMapper mapper)
         {
             _dataContext = dataContext;
             _mapper = mapper;
@@ -29,7 +30,7 @@ namespace fix_it_tracker_back_end.Controllers
         public ActionResult GetRepairs()
         {
 
-            var repairs = _dataContext.Repairs;
+            var repairs = _dataContext.GetRepairs();
             var repairsToReturn = _mapper.Map<IEnumerable<RepairGetDto>>(repairs);
 
             if (repairsToReturn == null)
@@ -46,7 +47,7 @@ namespace fix_it_tracker_back_end.Controllers
         [HttpGet("{id}")]
         public ActionResult GetRepair(int id)
         {
-            var repair = _dataContext.Repairs.FirstOrDefault(r => r.RepairID == id);
+            var repair = _dataContext.GetRepair(id);
             var repairToReturn = _mapper.Map<RepairGetDto>(repair);
 
             if (repairToReturn == null)
@@ -63,7 +64,7 @@ namespace fix_it_tracker_back_end.Controllers
         [HttpGet("[action]")]
         public ActionResult GetCustomerRepairs(int id)
         {
-            var repair = _dataContext.Repairs.Where(c => c.Customer.CustomerID == id);
+            var repair = _dataContext.GetCustomerRepairs(id);
             var repairToReturn = _mapper.Map<IEnumerable<RepairGetDto>>(repair);
 
             if (repairToReturn.Count() == 0)

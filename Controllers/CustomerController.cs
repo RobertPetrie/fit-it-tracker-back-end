@@ -8,6 +8,7 @@ using fix_it_tracker_back_end.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using fix_it_tracker_back_end.Data.Repositories;
 
 namespace fix_it_tracker_back_end.Controllers
 {
@@ -15,10 +16,10 @@ namespace fix_it_tracker_back_end.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private DataContext _dataContext;
+        private readonly IFixItTrackerRepository _dataContext;
         private readonly IMapper _mapper;
 
-        public CustomerController(DataContext dataContext, IMapper mapper)
+        public CustomerController(IFixItTrackerRepository dataContext, IMapper mapper)
         {
             _dataContext = dataContext;
             _mapper = mapper;
@@ -28,7 +29,7 @@ namespace fix_it_tracker_back_end.Controllers
         [HttpGet]
         public ActionResult GetCustomers()
         {
-            var customers = _dataContext.Customers;
+            var customers = _dataContext.GetCustomers();
             var customersToReturn = _mapper.Map<IEnumerable<CustomerGetDto>>(customers);
 
             if (customersToReturn == null)
@@ -45,7 +46,7 @@ namespace fix_it_tracker_back_end.Controllers
         [HttpGet("{id}")]
         public ActionResult GetCustomer(int id)
         {
-            var customer = _dataContext.Customers.FirstOrDefault(c => c.CustomerID == id);
+            var customer = _dataContext.GetCustomer(id);
             var customerToReturn = _mapper.Map<CustomerGetDto>(customer);
 
             if (customerToReturn == null)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using fix_it_tracker_back_end.Data.Repositories;
 using fix_it_tracker_back_end.Dtos;
 using fix_it_tracker_back_end.Model;
 using Microsoft.AspNetCore.Http;
@@ -14,10 +15,10 @@ namespace fix_it_tracker_back_end.Controllers
     [ApiController]
     public class ResolutionController : ControllerBase
     {
-        private DataContext _dataContext;
+        private IFixItTrackerRepository _dataContext;
         private readonly IMapper _mapper;
 
-        public ResolutionController(DataContext dataContext, IMapper mapper)
+        public ResolutionController(IFixItTrackerRepository dataContext, IMapper mapper)
         {
             _dataContext = dataContext;
             _mapper = mapper;
@@ -27,7 +28,7 @@ namespace fix_it_tracker_back_end.Controllers
         [HttpGet]
         public ActionResult GetResolutions()
         {
-            var resolutions = _dataContext.Resolutions;
+            var resolutions = _dataContext.GetResolutions();
             var resolutionsToReturn = _mapper.Map<IEnumerable<ResolutionGetDto>>(resolutions);
 
             if (resolutionsToReturn == null)
@@ -44,7 +45,7 @@ namespace fix_it_tracker_back_end.Controllers
         [HttpGet("{id}")]
         public ActionResult GetResolution(int id)
         {
-            var resolution = _dataContext.Resolutions.FirstOrDefault(r => r.ResolutionID == id);
+            var resolution = _dataContext.GetResolution(id);
             var resolutionToReturn = _mapper.Map<ResolutionGetDto>(resolution);
 
             if (resolutionToReturn == null)
