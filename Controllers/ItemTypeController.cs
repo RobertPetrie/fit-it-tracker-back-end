@@ -24,6 +24,9 @@ namespace fix_it_tracker_back_end.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Returns a list of item types : itemTypeId, name, model, manufacturer
+        /// </summary>
         // GET api/itemtype
         [HttpGet]
         public ActionResult GetItemTypes()
@@ -41,6 +44,10 @@ namespace fix_it_tracker_back_end.Controllers
             }
         }
 
+        /// <summary>
+        /// Returns a item type by specific id : itemTypeId, name, model, manufacturer
+        /// </summary>
+        /// <param name="id">The Item Type id</param>
         // GET api/itemtype/5
         [HttpGet("{id}")]
         public ActionResult GetItemType(int id)

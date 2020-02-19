@@ -16,6 +16,8 @@ using AutoMapper;
 using Newtonsoft.Json;
 using Microsoft.OpenApi.Models;
 using fix_it_tracker_back_end.Data.Repositories;
+using System.Reflection;
+using System.IO;
 
 namespace fix_it_tracker_back_end
 {
@@ -47,6 +49,10 @@ namespace fix_it_tracker_back_end
             {
                 options.SwaggerDoc("v1",
                     new OpenApiInfo { Title = "Fix IT Tracker API", Version = "v1" });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(xmlPath);
             });
         }
 

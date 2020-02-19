@@ -25,6 +25,9 @@ namespace fix_it_tracker_back_end.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Returns a list of customers: customerId, customerName, customerAddress, customerPostalCode, customerCity, customerProvince
+        /// </summary>
         // GET api/customer
         [HttpGet]
         public ActionResult GetCustomers()
@@ -42,6 +45,10 @@ namespace fix_it_tracker_back_end.Controllers
             }
         }
 
+        /// <summary>
+        /// Returns a customer by a specific id: customerId, customerName, customerAddress, customerPostalCode, customerCity, customerProvince
+        /// </summary>
+        /// <param name="id">The customer id</param>
         // GET api/customer/5
         [HttpGet("{id}")]
         public ActionResult GetCustomer(int id)

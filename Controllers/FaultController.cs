@@ -24,6 +24,9 @@ namespace fix_it_tracker_back_end.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Returns a list of faults: faultId, faultName, faultDescription
+        /// </summary>
         // GET api/fault
         [HttpGet]
         public ActionResult GetFaults()
@@ -41,6 +44,10 @@ namespace fix_it_tracker_back_end.Controllers
             }
         }
 
+        /// <summary>
+        /// Returns a fault by a specific id: faultId, faultName, faultDescription
+        /// </summary>
+        /// <param name="id">The fault id</param>
         // GET api/fault/5
         [HttpGet("{id}")]
         public ActionResult GetFault(int id)

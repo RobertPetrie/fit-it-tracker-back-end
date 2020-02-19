@@ -24,6 +24,9 @@ namespace fix_it_tracker_back_end.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Returns a list of resolutions : resolutionId, resolutionName, resolutionDescription
+        /// </summary>
         // GET api/resolution
         [HttpGet]
         public ActionResult GetResolutions()
@@ -41,6 +44,10 @@ namespace fix_it_tracker_back_end.Controllers
             }
         }
 
+        /// <summary>
+        /// Returns a resolution by specific id : resolutionId, resolutionName, resolutionDescription
+        /// </summary>
+        /// <param name="id">The resolution id</param>
         // GET api/resolution/5
         [HttpGet("{id}")]
         public ActionResult GetResolution(int id)
