@@ -34,14 +34,24 @@ namespace fix_it_tracker_back_end
         public void ConfigureServices(IServiceCollection services)
         {
             string connectionString =
-                Configuration["ConnectionStrings:DefaultConnection"];
+                Configuration["ConnectionStrings:SQLiteConnection"];
+
+            services.AddDbContext<DataContext>(options =>
+                options.UseSqlite(connectionString));
+
+            //  Use this for SQL Server
+
+            //string connectionString =
+            //    Configuration["ConnectionStrings:SQLServerConnection"];
+
+            //services.AddDbContext<DataContext>(options =>
+            //    options.UseSqlServer(connectionString));
+
             services.AddControllersWithViews()
             .AddJsonOptions(opts =>
             {
                 opts.JsonSerializerOptions.IgnoreNullValues = true;
             });
-            services.AddDbContext<DataContext>(options =>
-            options.UseSqlServer(connectionString));
             services.AddAutoMapper(typeof(DataContext).Assembly);
             services.AddControllers();
             services.AddScoped<IFixItTrackerRepository, FixItTrackerRepository>();
