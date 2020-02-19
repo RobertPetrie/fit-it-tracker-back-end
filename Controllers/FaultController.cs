@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using fix_it_tracker_back_end.Data.Repositories;
 using fix_it_tracker_back_end.Dtos;
 using fix_it_tracker_back_end.Model;
 using Microsoft.AspNetCore.Http;
@@ -14,10 +15,10 @@ namespace fix_it_tracker_back_end.Controllers
     [ApiController]
     public class FaultController : ControllerBase
     {
-        private DataContext _dataContext;
+        private IFixItTrackerRepository _dataContext;
         private readonly IMapper _mapper;
 
-        public FaultController(DataContext dataContext, IMapper mapper)
+        public FaultController(IFixItTrackerRepository dataContext, IMapper mapper)
         {
             _dataContext = dataContext;
             _mapper = mapper;
@@ -27,7 +28,7 @@ namespace fix_it_tracker_back_end.Controllers
         [HttpGet]
         public ActionResult GetFaults()
         {
-            var faults = _dataContext.Faults;
+            var faults = _dataContext.GetFaults();
             var faultsToReturn = _mapper.Map<IEnumerable<FaultGetDto>>(faults);
 
             if (faultsToReturn == null)
@@ -44,7 +45,8 @@ namespace fix_it_tracker_back_end.Controllers
         [HttpGet("{id}")]
         public ActionResult GetFault(int id)
         {
-            var fault = _dataContext.Faults.FirstOrDefault(f => f.FaultID == id);
+            var fault = _dataContext.GetFault(id);
+
             var faultToReturn = _mapper.Map<FaultGetDto>(fault);
 
             if (faultToReturn == null)

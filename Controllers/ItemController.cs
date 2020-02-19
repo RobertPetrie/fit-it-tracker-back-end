@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using fix_it_tracker_back_end.Data.Repositories;
 using fix_it_tracker_back_end.Dtos;
 using fix_it_tracker_back_end.Model;
 using Microsoft.AspNetCore.Http;
@@ -15,10 +16,10 @@ namespace fix_it_tracker_back_end.Controllers
     [ApiController]
     public class ItemController : ControllerBase
     {
-        private DataContext _dataContext;
+        private IFixItTrackerRepository _dataContext;
         private readonly IMapper _mapper;
 
-        public ItemController(DataContext dataContext, IMapper mapper)
+        public ItemController(IFixItTrackerRepository dataContext, IMapper mapper)
         {
             _dataContext = dataContext;
             _mapper = mapper;
@@ -28,17 +29,7 @@ namespace fix_it_tracker_back_end.Controllers
         [HttpGet]
         public ActionResult GetItems()
         {
-            var items = _dataContext.Items
-                .Include(i => i.ItemType);
-
-            // use this to break the circular reference
-            if (items != null)
-            {
-                foreach (var item in items)
-                {
-                    item.ItemType.Items = null;
-                }
-            }
+            var items = _dataContext.GetItems();
 
             var itemsToReturn = _mapper.Map<IEnumerable<ItemGetDto>>(items);
 
@@ -56,18 +47,7 @@ namespace fix_it_tracker_back_end.Controllers
         [HttpGet("{id}")]
         public ActionResult GetItem(int id)
         {
-            var item = _dataContext.Items
-                .Include(i => i.ItemType)
-                .FirstOrDefault(i => i.ItemID == id);
-
-            // use this to break the circular reference
-            if (item != null)
-            {
-                if (item.ItemType != null)
-                {
-                    item.ItemType.Items = null;
-                }
-            }
+            var item = _dataContext.GetItem(id);
 
             var itemToReturn = _mapper.Map<ItemGetDto>(item);
 

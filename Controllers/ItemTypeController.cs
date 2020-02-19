@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using fix_it_tracker_back_end.Data.Repositories;
 using fix_it_tracker_back_end.Dtos;
 using fix_it_tracker_back_end.Model;
 using Microsoft.AspNetCore.Http;
@@ -14,10 +15,10 @@ namespace fix_it_tracker_back_end.Controllers
     [ApiController]
     public class ItemTypeController : ControllerBase
     {
-        private DataContext _dataContext;
+        private IFixItTrackerRepository _dataContext;
         private readonly IMapper _mapper;
 
-        public ItemTypeController(DataContext dataContext, IMapper mapper)
+        public ItemTypeController(IFixItTrackerRepository dataContext, IMapper mapper)
         {
             _dataContext = dataContext;
             _mapper = mapper;
@@ -27,7 +28,7 @@ namespace fix_it_tracker_back_end.Controllers
         [HttpGet]
         public ActionResult GetItemTypes()
         {
-            var itemType = _dataContext.ItemTypes;
+            var itemType = _dataContext.GetItemTypes();
             var itemTypesToReturn = _mapper.Map<IEnumerable<ItemTypeGetDto>>(itemType);
 
             if (itemTypesToReturn == null)
@@ -44,7 +45,7 @@ namespace fix_it_tracker_back_end.Controllers
         [HttpGet("{id}")]
         public ActionResult GetItemType(int id)
         {
-            var itemType = _dataContext.ItemTypes.FirstOrDefault(i => i.ItemTypeID == id);
+            var itemType = _dataContext.GetItemType(id);
             var itemTypeToReturn = _mapper.Map<ItemTypeGetDto>(itemType);
 
             if (itemTypeToReturn == null)
