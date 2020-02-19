@@ -25,6 +25,9 @@ namespace fix_it_tracker_back_end.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Returns a list of repairs : repairId, repairDateOpened, repairDateCompleted
+        /// </summary>
         // GET api/repair
         [HttpGet]
         public ActionResult GetRepairs()
@@ -43,6 +46,10 @@ namespace fix_it_tracker_back_end.Controllers
             }
         }
 
+        /// <summary>
+        /// Returns a repair by specific id : repairId, repairDateOpened, repairDateCompleted
+        /// </summary>
+        /// <param name="id">The repair id</param>
         // GET api/repair/5
         [HttpGet("{id}")]
         public ActionResult GetRepair(int id)
@@ -60,8 +67,13 @@ namespace fix_it_tracker_back_end.Controllers
             }
         }
 
-        // GET api/repair/GetCustomerRepairs?id=5
-        [HttpGet("[action]")]
+        /// <summary>
+        /// Returns repairs by a specific customer id : repairId, repairDateOpened
+        /// </summary>
+        /// <param name="id">The cuustomer id</param>
+        /// <returns></returns>
+        // GET api/repair/GetCustomerRepairs/5
+        [HttpGet("[action]/{id}")]
         public ActionResult GetCustomerRepairs(int id)
         {
             var repair = _dataContext.GetCustomerRepairs(id);

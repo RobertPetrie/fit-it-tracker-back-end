@@ -25,6 +25,9 @@ namespace fix_it_tracker_back_end.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Returns a list of items : itemId, serial, itemType{ itemTypeId, name, model, manufacturer }
+        /// </summary>
         // GET api/item
         [HttpGet]
         public ActionResult GetItems()
@@ -43,6 +46,10 @@ namespace fix_it_tracker_back_end.Controllers
             }
         }
 
+        /// <summary>
+        /// Returns a item by specific id : itemId, serial, itemType{ itemTypeId, name, model, manufacturer }
+        /// </summary>
+        /// <param name="id">The item id</param>
         // GET api/item/5
         [HttpGet("{id}")]
         public ActionResult GetItem(int id)
