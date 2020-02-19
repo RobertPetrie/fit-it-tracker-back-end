@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Newtonsoft.Json;
 using Microsoft.OpenApi.Models;
+using fix_it_tracker_back_end.Data.Repositories;
 
 namespace fix_it_tracker_back_end
 {
@@ -41,6 +42,7 @@ namespace fix_it_tracker_back_end
             options.UseSqlServer(connectionString));
             services.AddAutoMapper(typeof(DataContext).Assembly);
             services.AddControllers();
+            services.AddScoped<IFixItTrackerRepository, FixItTrackerRepository>();
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1",
