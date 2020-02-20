@@ -16,7 +16,9 @@ This is a simple web API with basic CRUD operations used to interact with a data
 5.	Run this command to build the SQLite database file: 
 > **`dotnet ef database update`**
 
-6.	Finally run this command to launch the app: dotnet watch run
+6.	Finally run this command to launch the app: 
+> **`dotnet watch run`**
+
 > Note: The database will be seeded with data on the first build
 
 7.	Navigate to https://localhost:5001/swagger/
