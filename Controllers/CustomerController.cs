@@ -30,12 +30,12 @@ namespace fix_it_tracker_back_end.Controllers
         /// </summary>
         // GET api/customer
         [HttpGet]
-        public ActionResult GetCustomers()
+        public ActionResult<IEnumerable<Customer>> GetCustomers()
         {
             var customers = _dataContext.GetCustomers();
             var customersToReturn = _mapper.Map<IEnumerable<CustomerGetDto>>(customers);
 
-            if (customersToReturn == null)
+            if (customersToReturn.Count() == 0)
             {
                 return NotFound("No customers found.");
             }
@@ -51,7 +51,7 @@ namespace fix_it_tracker_back_end.Controllers
         /// <param name="id">The customer id</param>
         // GET api/customer/5
         [HttpGet("{id}")]
-        public ActionResult GetCustomer(int id)
+        public ActionResult<Customer> GetCustomer(int id)
         {
             var customer = _dataContext.GetCustomer(id);
             var customerToReturn = _mapper.Map<CustomerGetDto>(customer);
