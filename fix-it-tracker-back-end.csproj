@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="fix-it-tracker-back-end-unit-tests\**" />
+    <Content Remove="fix-it-tracker-back-end-unit-tests\**" />
+    <EmbeddedResource Remove="fix-it-tracker-back-end-unit-tests\**" />
+    <None Remove="fix-it-tracker-back-end-unit-tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
