@@ -11,10 +11,15 @@ namespace fix_it_tracker_back_end_unit_tests
     public class UnitTestsRepository : IFixItTrackerRepository
     {
         private List<Customer> _customers;
+        private List<Fault> _faults;
 
-        public UnitTestsRepository(bool noCustomers = false)
+        public UnitTestsRepository(
+            bool noCustomers = false,
+            bool noFaults = false
+            )
         {
-            _customers = noCustomers == true ? new List<Customer>() : TestCustomers.GetCustomers();
+            _customers = noCustomers == true ? new List<Customer>() : TestData.GetCustomers();
+            _faults = noFaults == true ? new List<Fault>() : TestData.GetFaults();
         }
 
         public Customer GetCustomer(int id)
@@ -35,12 +40,13 @@ namespace fix_it_tracker_back_end_unit_tests
 
         public Fault GetFault(int id)
         {
-            throw new NotImplementedException();
+            var fault = _faults.FirstOrDefault(f => f.FaultID == id);
+            return fault;
         }
 
         public IEnumerable<Fault> GetFaults()
         {
-            throw new NotImplementedException();
+            return _faults;
         }
 
         public Item GetItem(int id)
