@@ -11,8 +11,8 @@ namespace fix_it_tracker_back_end_unit_tests
 {
     public class CustomerControllerTest
     {
-        CustomerController _customerController;
-        IFixItTrackerRepository _fixItTrackerRepository;
+        private CustomerController _customerController;
+        private IFixItTrackerRepository _fixItTrackerRepository;
 
         private static int EXISTING_CUSTOMER_ID = 1;
         private static int NON_EXISTING_CUSTOMER_ID = 25;
