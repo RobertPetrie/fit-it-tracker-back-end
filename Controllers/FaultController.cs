@@ -29,12 +29,12 @@ namespace fix_it_tracker_back_end.Controllers
         /// </summary>
         // GET api/fault
         [HttpGet]
-        public ActionResult GetFaults()
+        public ActionResult<IEnumerable<Fault>> GetFaults()
         {
             var faults = _dataContext.GetFaults();
             var faultsToReturn = _mapper.Map<IEnumerable<FaultGetDto>>(faults);
 
-            if (faultsToReturn == null)
+            if (faultsToReturn.Count() == 0)
             {
                 return NotFound("No faults found.");
             }
@@ -50,7 +50,7 @@ namespace fix_it_tracker_back_end.Controllers
         /// <param name="id">The fault id</param>
         // GET api/fault/5
         [HttpGet("{id}")]
-        public ActionResult GetFault(int id)
+        public ActionResult<Fault> GetFault(int id)
         {
             var fault = _dataContext.GetFault(id);
 
