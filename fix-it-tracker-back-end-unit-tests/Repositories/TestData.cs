@@ -5,7 +5,7 @@ using System.Text;
 
 namespace fix_it_tracker_back_end_unit_tests.Repositories
 {
-    public static class TestCustomers
+    public static class TestData
     {
         public static List<Customer> GetCustomers()
         {
@@ -64,6 +64,55 @@ namespace fix_it_tracker_back_end_unit_tests.Repositories
                     PostalCode = "G0A 4V0",
                     City = "Montréal",
                     Province = "QC"
+                }
+            };
+        }
+
+        public static List<Fault> GetFaults()
+        {
+            return new List<Fault>()
+            {
+                new Fault
+                {
+                    FaultID = 1,
+                    Name = "Battery",
+                    Description = "The battery will not charge"
+                },
+                new Fault
+                {
+                    FaultID = 2,
+                    Name = "Damaged Keyboard",
+                    Description = "The keyboard has physical damage."
+                },
+                new Fault
+                {
+                    FaultID = 3,
+                    Name = "Damaged Screen",
+                    Description = "The screen has physical damage."
+                },
+                new Fault
+                {
+                    FaultID = 4,
+                    Name = "Black Screen",
+                    Description = "Will turn on but the screen is black."
+                },
+                new Fault
+                {
+                    FaultID = 5,
+                    Name = "Dead",
+                    Description = "Will not turn on."
+                },
+                new Fault
+                {
+                    FaultID = 6,
+                    Name = "Hot",
+                    Description = "Device gets very hot after being powered on."
+                },
+                new Fault
+                {
+                    FaultID = 7,
+                    Name = "No Sound",
+                    Description = "The device has no sound."
                 }
             };
         }
