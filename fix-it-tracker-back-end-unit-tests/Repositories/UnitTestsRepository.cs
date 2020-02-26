@@ -13,16 +13,19 @@ namespace fix_it_tracker_back_end_unit_tests
         private List<Customer> _customers;
         private List<Fault> _faults;
         private List<ItemType> _itemTypes;
+        private List<Item> _items;
 
         public UnitTestsRepository(
             bool noCustomers = false,
             bool noFaults = false,
-            bool noItemTypes = false
+            bool noItemTypes = false,
+            bool noItems = false
             )
         {
             _customers = noCustomers == true ? new List<Customer>() : TestData.GetCustomers();
             _faults = noFaults == true ? new List<Fault>() : TestData.GetFaults();
             _itemTypes = noItemTypes == true ? new List<ItemType>() : TestData.GetItemTypes();
+            _items = noItems == true ? new List<Item>() : TestData.GetItems();
         }
 
         public Customer GetCustomer(int id)
@@ -54,12 +57,13 @@ namespace fix_it_tracker_back_end_unit_tests
 
         public Item GetItem(int id)
         {
-            throw new NotImplementedException();
+            var item = _items.FirstOrDefault(i => i.ItemID == id);
+            return item;
         }
 
         public IEnumerable<Item> GetItems()
         {
-            throw new NotImplementedException();
+            return _items;
         }
 
         public ItemType GetItemType(int id)
