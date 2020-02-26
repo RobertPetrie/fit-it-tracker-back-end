@@ -116,5 +116,47 @@ namespace fix_it_tracker_back_end_unit_tests.Repositories
                 }
             };
         }
+
+        public static List<ItemType> GetItemTypes()
+        {
+            return new List<ItemType>()
+            {
+                new ItemType
+                {
+                    ItemTypeID = 1,
+                    Name = "65 Inch  UHD HDR LED TV",
+                    Model = "XBR65X950G",
+                    Manufacturer = "Sony"
+                },
+                new ItemType
+                {
+                    ItemTypeID = 2,
+                    Name = "G8X ThinQ Dual Screen",
+                    Model = "LG G8X ThinQ",
+                    Manufacturer = "LG"
+                },
+                new ItemType
+                {
+                    ItemTypeID = 3,
+                    Name = "Galaxy Tab A 8",
+                    Model = "SM-T290NZKAXAC",
+                    Manufacturer = "Samsung"
+                },
+                new ItemType
+                {
+                    ItemTypeID = 4,
+                    Name = "MacBook Pro 16 Inch",
+                    Model = " MVVJ2LL/A",
+                    Manufacturer = "Apple"
+                },
+                new ItemType
+                {
+                    ItemTypeID = 5,
+                    Name = "OptiPlex",
+                    Model = "3060 SFF",
+                    Manufacturer = "Dell"
+                }
+            };
+        }
     }
 }
