@@ -1,6 +1,7 @@
 ﻿using fix_it_tracker_back_end.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace fix_it_tracker_back_end_unit_tests.Repositories
@@ -155,6 +156,75 @@ namespace fix_it_tracker_back_end_unit_tests.Repositories
                     Name = "OptiPlex",
                     Model = "3060 SFF",
                     Manufacturer = "Dell"
+                }
+            };
+        }
+
+        private static ItemType GetItemType(int id) => GetItemTypes().FirstOrDefault(i => i.ItemTypeID == id);
+
+        public static List<Item> GetItems()
+        {
+            return new List<Item>()
+            {
+                new Item
+                {
+                    ItemID = 1,
+                    Serial = "116996",
+                    ItemType = GetItemType(1)
+                },
+                new Item
+                {
+                    ItemID = 2,
+                    Serial = "829684",
+                    ItemType = GetItemType(2)
+                },
+                new Item
+                {
+                    ItemID = 3,
+                    Serial = "582427",
+                    ItemType = GetItemType(3)
+                },
+                new Item
+                {
+                    ItemID = 4,
+                    Serial = "305892",
+                    ItemType = GetItemType(4)
+                },
+                new Item
+                {
+                    ItemID = 5,
+                    Serial = "991161",
+                    ItemType = GetItemType(5)
+                },
+                new Item
+                {
+                    ItemID = 6,
+                    Serial = "211020",
+                    ItemType = GetItemType(1)
+                },
+                new Item
+                {
+                    ItemID = 7,
+                    Serial = "962453",
+                    ItemType = GetItemType(2)
+                },
+                new Item
+                {
+                    ItemID = 8,
+                    Serial = "402389",
+                    ItemType = GetItemType(3)
+                },
+                new Item
+                {
+                    ItemID = 9,
+                    Serial = "688021",
+                    ItemType = GetItemType(4)
+                },
+                new Item
+                {
+                    ItemID = 10,
+                    Serial = "918294",
+                    ItemType = GetItemType(5)
                 }
             };
         }
