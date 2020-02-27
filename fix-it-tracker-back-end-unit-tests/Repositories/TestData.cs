@@ -269,5 +269,42 @@ namespace fix_it_tracker_back_end_unit_tests.Repositories
                 }
             };
         }
+
+        public static List<Resolution> GetResolutions()
+        {
+            return new List<Resolution>()
+            {
+                new Resolution
+                {
+                    ResolutionID = 1,
+                    Name = "Speaker",
+                    Description = "Replaced the internal speaker."
+                },
+                new Resolution
+                {
+                    ResolutionID = 2,
+                    Name = "Cleaned Fan",
+                    Description = "Removed all dust from the fan."
+                },
+                new Resolution
+                {
+                    ResolutionID = 3,
+                    Name = "Replacement Battery",
+                    Description = "Installed a new battery."
+                },
+                new Resolution
+                {
+                    ResolutionID = 4,
+                    Name = "Keyboard",
+                    Description = "Installed a new keyboard."
+                },
+                new Resolution
+                {
+                    ResolutionID = 5,
+                    Name = "New Screen",
+                    Description = "Replaced the screen with a new one."
+                }
+            };
+        }
     }
 }
