@@ -30,13 +30,13 @@ namespace fix_it_tracker_back_end.Controllers
         /// </summary>
         // GET api/item
         [HttpGet]
-        public ActionResult GetItems()
+        public ActionResult<IEnumerable<Item>> GetItems()
         {
             var items = _dataContext.GetItems();
 
             var itemsToReturn = _mapper.Map<IEnumerable<ItemGetDto>>(items);
 
-            if (itemsToReturn == null)
+            if (itemsToReturn.Count() == 0)
             {
                 return NotFound("No items found.");
             }
@@ -52,7 +52,7 @@ namespace fix_it_tracker_back_end.Controllers
         /// <param name="id">The item id</param>
         // GET api/item/5
         [HttpGet("{id}")]
-        public ActionResult GetItem(int id)
+        public ActionResult<Item> GetItem(int id)
         {
             var item = _dataContext.GetItem(id);
 

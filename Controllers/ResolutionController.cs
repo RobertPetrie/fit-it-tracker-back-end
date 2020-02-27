@@ -29,12 +29,12 @@ namespace fix_it_tracker_back_end.Controllers
         /// </summary>
         // GET api/resolution
         [HttpGet]
-        public ActionResult GetResolutions()
+        public ActionResult<IEnumerable<Resolution>> GetResolutions()
         {
             var resolutions = _dataContext.GetResolutions();
             var resolutionsToReturn = _mapper.Map<IEnumerable<ResolutionGetDto>>(resolutions);
 
-            if (resolutionsToReturn == null)
+            if (resolutionsToReturn.Count() == 0)
             {
                 return NotFound("No resolutions found.");
             }
@@ -50,7 +50,7 @@ namespace fix_it_tracker_back_end.Controllers
         /// <param name="id">The resolution id</param>
         // GET api/resolution/5
         [HttpGet("{id}")]
-        public ActionResult GetResolution(int id)
+        public ActionResult<Resolution> GetResolution(int id)
         {
             var resolution = _dataContext.GetResolution(id);
             var resolutionToReturn = _mapper.Map<ResolutionGetDto>(resolution);

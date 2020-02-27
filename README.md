@@ -46,11 +46,10 @@ This project is currently a work in progress.  Right now, the following has been
 - Domain Transfer Objects with Automapping
 - Documentation using Swagger
 - Repository Pattern
+- Unit Testing
 
 ## Coming Soon to the Project
-- Unit Testing
 - Error Handling
 - POST, PATCH, PUT, DELETE statements
 - Filtering and Paging
 - Security and Authentication
-- Front End Application (SPA)

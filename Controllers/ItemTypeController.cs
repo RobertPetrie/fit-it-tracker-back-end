@@ -29,12 +29,12 @@ namespace fix_it_tracker_back_end.Controllers
         /// </summary>
         // GET api/itemtype
         [HttpGet]
-        public ActionResult GetItemTypes()
+        public ActionResult<IEnumerable<ItemType>> GetItemTypes()
         {
             var itemType = _dataContext.GetItemTypes();
             var itemTypesToReturn = _mapper.Map<IEnumerable<ItemTypeGetDto>>(itemType);
 
-            if (itemTypesToReturn == null)
+            if (itemTypesToReturn.Count() == 0)
             {
                 return NotFound("No item types found.");
             }
@@ -50,7 +50,7 @@ namespace fix_it_tracker_back_end.Controllers
         /// <param name="id">The Item Type id</param>
         // GET api/itemtype/5
         [HttpGet("{id}")]
-        public ActionResult GetItemType(int id)
+        public ActionResult<ItemType> GetItemType(int id)
         {
             var itemType = _dataContext.GetItemType(id);
             var itemTypeToReturn = _mapper.Map<ItemTypeGetDto>(itemType);
