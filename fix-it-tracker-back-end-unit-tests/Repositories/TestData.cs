@@ -69,6 +69,8 @@ namespace fix_it_tracker_back_end_unit_tests.Repositories
             };
         }
 
+        private static Customer GetCustomer(int id) => GetCustomers().FirstOrDefault(c => c.CustomerID == id);
+
         public static List<Fault> GetFaults()
         {
             return new List<Fault>()
@@ -225,6 +227,45 @@ namespace fix_it_tracker_back_end_unit_tests.Repositories
                     ItemID = 10,
                     Serial = "918294",
                     ItemType = GetItemType(5)
+                }
+            };
+        }
+
+        public static List<Repair> GetRepairs()
+        {
+            return new List<Repair>()
+            {
+                new Repair
+                {
+                    RepairID = 1,
+                    DateOpened = DateTime.Parse("2019-10-19T15:58:43.3603324"),
+                    Customer = GetCustomer(1)
+                },
+                new Repair
+                {
+                    RepairID = 2,
+                    DateOpened = DateTime.Parse("2019-08-19T15:58:43.3613501"),
+                    Customer = GetCustomer(2)
+                },
+                new Repair
+                {
+                    RepairID = 3,
+                    DateOpened = DateTime.Parse("2019-10-19T15:58:43.3612719"),
+                    DateCompleted = DateTime.Parse("2019-10-25T15:58:43.3612719"),
+                    Customer = GetCustomer(3)
+                },
+                new Repair
+                {
+                    RepairID = 4,
+                    DateOpened = DateTime.Parse("2019-12-19T15:58:43.3611711"),
+                    DateCompleted = DateTime.Parse("2019-12-25T15:58:43.3611711"),
+                    Customer = GetCustomer(4)
+                },
+                new Repair
+                {
+                    RepairID = 5,
+                    DateOpened = DateTime.Parse("2019-05-19T15:58:43.3610984"),
+                    Customer = GetCustomer(5)
                 }
             };
         }
