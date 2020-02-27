@@ -30,13 +30,13 @@ namespace fix_it_tracker_back_end.Controllers
         /// </summary>
         // GET api/repair
         [HttpGet]
-        public ActionResult GetRepairs()
+        public ActionResult<IEnumerable<Repair>> GetRepairs()
         {
 
             var repairs = _dataContext.GetRepairs();
             var repairsToReturn = _mapper.Map<IEnumerable<RepairGetDto>>(repairs);
 
-            if (repairsToReturn == null)
+            if (repairsToReturn.Count() == 0)
             {
                 return NotFound("No repairs found.");
             }
@@ -52,7 +52,7 @@ namespace fix_it_tracker_back_end.Controllers
         /// <param name="id">The repair id</param>
         // GET api/repair/5
         [HttpGet("{id}")]
-        public ActionResult GetRepair(int id)
+        public ActionResult<Repair> GetRepair(int id)
         {
             var repair = _dataContext.GetRepair(id);
             var repairToReturn = _mapper.Map<RepairGetDto>(repair);
@@ -74,7 +74,7 @@ namespace fix_it_tracker_back_end.Controllers
         /// <returns></returns>
         // GET api/repair/GetCustomerRepairs/5
         [HttpGet("[action]/{id}")]
-        public ActionResult GetCustomerRepairs(int id)
+        public ActionResult<IEnumerable<Repair>> GetCustomerRepairs(int id)
         {
             var repair = _dataContext.GetCustomerRepairs(id);
             var repairToReturn = _mapper.Map<IEnumerable<RepairGetDto>>(repair);
