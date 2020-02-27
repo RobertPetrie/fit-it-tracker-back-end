@@ -14,18 +14,21 @@ namespace fix_it_tracker_back_end_unit_tests
         private List<Fault> _faults;
         private List<ItemType> _itemTypes;
         private List<Item> _items;
+        private List<Repair> _repairs;
 
         public UnitTestsRepository(
             bool noCustomers = false,
             bool noFaults = false,
             bool noItemTypes = false,
-            bool noItems = false
+            bool noItems = false,
+            bool noRepairs = false
             )
         {
             _customers = noCustomers == true ? new List<Customer>() : TestData.GetCustomers();
             _faults = noFaults == true ? new List<Fault>() : TestData.GetFaults();
             _itemTypes = noItemTypes == true ? new List<ItemType>() : TestData.GetItemTypes();
             _items = noItems == true ? new List<Item>() : TestData.GetItems();
+            _repairs = noRepairs == true ? new List<Repair>() : TestData.GetRepairs();
         }
 
         public Customer GetCustomer(int id)
@@ -36,7 +39,7 @@ namespace fix_it_tracker_back_end_unit_tests
 
         public IEnumerable<Repair> GetCustomerRepairs(int id)
         {
-            throw new NotImplementedException();
+            return _repairs.Where(c => c.Customer.CustomerID == id);
         }
 
         public IEnumerable<Customer> GetCustomers()
@@ -79,12 +82,13 @@ namespace fix_it_tracker_back_end_unit_tests
 
         public Repair GetRepair(int id)
         {
-            throw new NotImplementedException();
+            var repair = _repairs.FirstOrDefault(r => r.RepairID == id);
+            return repair;
         }
 
         public IEnumerable<Repair> GetRepairs()
         {
-            throw new NotImplementedException();
+            return _repairs;
         }
 
         public Resolution GetResolution(int id)
