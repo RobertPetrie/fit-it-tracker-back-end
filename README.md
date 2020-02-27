@@ -47,9 +47,9 @@ This project is currently a work in progress.  Right now, the following has been
 - Documentation using Swagger
 - Repository Pattern
 - Unit Testing
+- Error Handling
 
 ## Coming Soon to the Project
-- Error Handling
 - POST, PATCH, PUT, DELETE statements
 - Filtering and Paging
 - Security and Authentication
