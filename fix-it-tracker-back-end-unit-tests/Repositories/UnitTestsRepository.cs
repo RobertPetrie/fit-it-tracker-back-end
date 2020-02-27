@@ -15,13 +15,15 @@ namespace fix_it_tracker_back_end_unit_tests
         private List<ItemType> _itemTypes;
         private List<Item> _items;
         private List<Repair> _repairs;
+        private List<Resolution> _resolutions;
 
         public UnitTestsRepository(
             bool noCustomers = false,
             bool noFaults = false,
             bool noItemTypes = false,
             bool noItems = false,
-            bool noRepairs = false
+            bool noRepairs = false,
+            bool noResolutions = false
             )
         {
             _customers = noCustomers == true ? new List<Customer>() : TestData.GetCustomers();
@@ -29,6 +31,7 @@ namespace fix_it_tracker_back_end_unit_tests
             _itemTypes = noItemTypes == true ? new List<ItemType>() : TestData.GetItemTypes();
             _items = noItems == true ? new List<Item>() : TestData.GetItems();
             _repairs = noRepairs == true ? new List<Repair>() : TestData.GetRepairs();
+            _resolutions = noResolutions == true ? new List<Resolution>() : TestData.GetResolutions();
         }
 
         public Customer GetCustomer(int id)
@@ -93,12 +96,13 @@ namespace fix_it_tracker_back_end_unit_tests
 
         public Resolution GetResolution(int id)
         {
-            throw new NotImplementedException();
+            var resolution = _resolutions.FirstOrDefault(r => r.ResolutionID == id);
+            return resolution;
         }
 
         public IEnumerable<Resolution> GetResolutions()
         {
-            throw new NotImplementedException();
+            return _resolutions;
         }
     }
 }
