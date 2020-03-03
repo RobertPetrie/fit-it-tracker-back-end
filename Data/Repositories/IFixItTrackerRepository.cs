@@ -26,5 +26,8 @@ namespace fix_it_tracker_back_end.Data.Repositories
 
         IEnumerable<Resolution> GetResolutions();
         Resolution GetResolution(int id);
+
+        Customer AddCustomer(Customer customer);
+        bool CustomerExists(Customer customer);
     }
 }

@@ -34,6 +34,16 @@ namespace fix_it_tracker_back_end_unit_tests
             _resolutions = noResolutions == true ? new List<Resolution>() : TestData.GetResolutions();
         }
 
+        public Customer AddCustomer(Customer customer)
+        {
+            customer.CustomerID = GetCustomers().LastOrDefault().CustomerID++;
+            _customers.Add(customer);
+            return customer;
+        }
+
+        public bool CustomerExists(Customer customer) =>
+            _customers.Any(c => c.Name.ToUpper() == customer.Name.ToUpper()) ? true : false;
+
         public Customer GetCustomer(int id)
         {
             var customer = _customers.FirstOrDefault(c => c.CustomerID == id);

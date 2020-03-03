@@ -117,5 +117,15 @@ namespace fix_it_tracker_back_end.Data.Repositories
             var resolutions = _dataContext.Resolutions;
             return resolutions;
         }
+
+        public Customer AddCustomer(Customer customer)
+        {
+            _dataContext.Add(customer);
+            _dataContext.SaveChanges();
+            return customer;
+        }
+
+        public bool CustomerExists(Customer customer) =>
+            _dataContext.Customers.Any(c => c.Name.ToUpper() == customer.Name.ToUpper()) ? true : false;
     }
 }
