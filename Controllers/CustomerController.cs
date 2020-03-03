@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
 using fix_it_tracker_back_end.Dtos;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using fix_it_tracker_back_end.Model;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using fix_it_tracker_back_end.Data.Repositories;
+using fix_it_tracker_back_end.Model.BindingTargets;
 
 namespace fix_it_tracker_back_end.Controllers
 {
@@ -50,7 +47,7 @@ namespace fix_it_tracker_back_end.Controllers
         /// </summary>
         /// <param name="id">The customer id</param>
         // GET api/customer/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "CustomerById")]
         public ActionResult<Customer> GetCustomer(int id)
         {
             var customer = _dataContext.GetCustomer(id);
@@ -64,6 +61,36 @@ namespace fix_it_tracker_back_end.Controllers
             {
                 return Ok(customerToReturn);
             }
+        }
+
+        /// <summary>
+        /// Creates a single customer.
+        /// </summary>
+        /// <param name="customerData">The customer object that you want to create</param>
+        /// <returns>Created customer with a header on how to access it.</returns>
+        // POST api/customer
+        [HttpPost]
+        public ActionResult CreateCustomer([FromBody] CustomerData customerData)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (_dataContext.CustomerExists(customerData.Customer))
+            {
+                return BadRequest("Customer name already exists");
+            }
+
+            var newCustomer = _dataContext.AddCustomer(customerData.Customer);
+
+            var customerToReturn = _mapper.Map<CustomerGetDto>(newCustomer);
+
+            //var resourceUrl = Path.Combine(Request.Path.ToString(), Uri.EscapeUriString(customerToReturn.CustomerID.ToString()));
+
+            //return Created(resourceUrl, customerToReturn);
+
+            return CreatedAtRoute("CustomerById", new { id = customerToReturn.CustomerID }, customerToReturn);
         }
     }
 }
