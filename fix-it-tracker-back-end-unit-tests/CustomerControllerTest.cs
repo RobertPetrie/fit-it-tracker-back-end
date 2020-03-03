@@ -1,9 +1,12 @@
 ﻿using fix_it_tracker_back_end.Controllers;
 using fix_it_tracker_back_end.Data.Repositories;
 using fix_it_tracker_back_end.Dtos;
+using fix_it_tracker_back_end.Model;
+using fix_it_tracker_back_end.Model.BindingTargets;
 using fix_it_tracker_back_end_unit_tests.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Xunit;
 
@@ -78,6 +81,55 @@ namespace fix_it_tracker_back_end_unit_tests
         {
             var okResult = _customerController.GetCustomer(NON_EXISTING_CUSTOMER_ID);
             Assert.IsType<NotFoundObjectResult>(okResult.Result);
+        }
+
+        // POST api/customer
+        [Fact]
+        public void AddCustomer_ReturnsCreatedAtRouteResponse()
+        {
+            CustomerData customer = new CustomerData
+            {
+                Name = "John Doe",
+                Address = "123 Somewhere Drive",
+                City = "Toronto",
+                Province = "ON",
+                PostalCode = "A1B 2C3"
+            };
+
+            var createdResponse = _customerController.CreateCustomer(customer);
+
+            Assert.IsType<CreatedAtRouteResult>(createdResponse);
+        }
+
+        [Fact]
+        public void AddCustomer_ReturnedResponseHasCreatedItem()
+        {
+            CustomerData customer = new CustomerData
+            {
+                Name = "John Doe",
+                Address = "123 Somewhere Drive",
+                City = "Toronto",
+                Province = "ON",
+                PostalCode = "A1B 2C3"
+            };
+
+            ActionResult<CustomerGetDto> actionResult = _customerController.CreateCustomer(customer);
+            CreatedAtRouteResult createdAtRouteResult = actionResult.Result as CreatedAtRouteResult;
+            CustomerGetDto result = createdAtRouteResult.Value as CustomerGetDto;
+
+            Assert.Equal("John Doe", result.Name);
+        }
+
+        [Fact]
+        public void AddCustomer_ReturnsBadRequest()
+        {
+            CustomerData customer = new CustomerData();
+
+            _customerController.ModelState.AddModelError("Name", "Required");
+
+            var badResponse = _customerController.CreateCustomer(customer);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
         }
     }
 }
