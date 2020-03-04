@@ -86,10 +86,6 @@ namespace fix_it_tracker_back_end.Controllers
 
             var customerToReturn = _mapper.Map<CustomerGetDto>(newCustomer);
 
-            //var resourceUrl = Path.Combine(Request.Path.ToString(), Uri.EscapeUriString(customerToReturn.CustomerID.ToString()));
-
-            //return Created(resourceUrl, customerToReturn);
-
             return CreatedAtRoute("CustomerById", new { id = customerToReturn.CustomerID }, customerToReturn);
         }
     }
