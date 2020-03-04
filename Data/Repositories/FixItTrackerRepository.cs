@@ -127,5 +127,15 @@ namespace fix_it_tracker_back_end.Data.Repositories
 
         public bool CustomerExists(Customer customer) =>
             _dataContext.Customers.Any(c => c.Name.ToUpper() == customer.Name.ToUpper()) ? true : false;
+
+        public Fault AddFault(Fault fault)
+        {
+            _dataContext.Add(fault);
+            _dataContext.SaveChanges();
+            return fault;
+        }
+
+        public bool FaultExists(Fault fault) =>
+            _dataContext.Faults.Any(f => f.Name.ToUpper() == fault.Name.ToUpper()) ? true : false;
     }
 }

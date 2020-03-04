@@ -29,5 +29,8 @@ namespace fix_it_tracker_back_end.Data.Repositories
 
         Customer AddCustomer(Customer customer);
         bool CustomerExists(Customer customer);
+
+        Fault AddFault(Fault fault);
+        bool FaultExists(Fault fault);
     }
 }

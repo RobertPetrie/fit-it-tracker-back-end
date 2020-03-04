@@ -41,8 +41,18 @@ namespace fix_it_tracker_back_end_unit_tests
             return customer;
         }
 
+        public Fault AddFault(Fault fault)
+        {
+            fault.FaultID = GetFaults().LastOrDefault().FaultID++;
+            _faults.Add(fault);
+            return fault;
+        }
+
         public bool CustomerExists(Customer customer) =>
             _customers.Any(c => c.Name.ToUpper() == customer.Name.ToUpper()) ? true : false;
+
+        public bool FaultExists(Fault fault) =>
+            _faults.Any(f => f.Name.ToUpper() == fault.Name.ToUpper()) ? true : false;
 
         public Customer GetCustomer(int id)
         {
