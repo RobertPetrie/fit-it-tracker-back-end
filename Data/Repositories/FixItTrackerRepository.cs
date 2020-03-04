@@ -137,5 +137,28 @@ namespace fix_it_tracker_back_end.Data.Repositories
 
         public bool FaultExists(Fault fault) =>
             _dataContext.Faults.Any(f => f.Name.ToUpper() == fault.Name.ToUpper()) ? true : false;
+
+        public ItemType AddItemType(ItemType itemType)
+        {
+            _dataContext.Add(itemType);
+            _dataContext.SaveChanges();
+            return itemType;
+        }
+
+        public bool ItemTypeExists(ItemType itemType)
+        {
+            if (_dataContext.ItemTypes.Any(
+                i => i.Name.ToUpper() == itemType.Name.ToUpper() &&
+                i.Model.ToUpper() == itemType.Model.ToUpper() &&
+                i.Manufacturer.ToUpper() == itemType.Manufacturer.ToUpper()))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

@@ -32,5 +32,8 @@ namespace fix_it_tracker_back_end.Data.Repositories
 
         Fault AddFault(Fault fault);
         bool FaultExists(Fault fault);
+
+        ItemType AddItemType(ItemType itemType);
+        bool ItemTypeExists(ItemType itemType);
     }
 }

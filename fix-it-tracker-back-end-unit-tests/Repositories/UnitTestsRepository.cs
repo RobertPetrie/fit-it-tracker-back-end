@@ -48,11 +48,33 @@ namespace fix_it_tracker_back_end_unit_tests
             return fault;
         }
 
+        public ItemType AddItemType(ItemType itemType)
+        {
+            itemType.ItemTypeID = GetItemTypes().LastOrDefault().ItemTypeID++;
+            _itemTypes.Add(itemType);
+            return itemType;
+        }
+
         public bool CustomerExists(Customer customer) =>
             _customers.Any(c => c.Name.ToUpper() == customer.Name.ToUpper()) ? true : false;
 
         public bool FaultExists(Fault fault) =>
             _faults.Any(f => f.Name.ToUpper() == fault.Name.ToUpper()) ? true : false;
+
+        public bool ItemTypeExists(ItemType itemType)
+        {
+            if (_itemTypes.Any(
+                i => i.Name.ToUpper() == itemType.Name.ToUpper() &&
+                i.Model.ToUpper() == itemType.Model.ToUpper() &&
+                i.Manufacturer.ToUpper() == itemType.Manufacturer.ToUpper()))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         public Customer GetCustomer(int id)
         {
