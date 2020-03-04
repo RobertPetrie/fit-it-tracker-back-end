@@ -1,6 +1,8 @@
 ﻿using fix_it_tracker_back_end.Controllers;
 using fix_it_tracker_back_end.Data.Repositories;
 using fix_it_tracker_back_end.Dtos;
+using fix_it_tracker_back_end.Model;
+using fix_it_tracker_back_end.Model.BindingTargets;
 using fix_it_tracker_back_end_unit_tests.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -80,6 +82,71 @@ namespace fix_it_tracker_back_end_unit_tests
         {
             var okResult = _faultController.GetFault(NON_EXISTING_FAULT_ID);
             Assert.IsType<NotFoundObjectResult>(okResult.Result);
+        }
+
+        // POST api/fault/
+        [Fact]
+        public void AddFault_ReturnsCreatedResponse()
+        {
+            FaultData fault = new FaultData
+            {
+                Name = "Test Fault",
+                Description = "This is a test fault"
+            };
+
+            var createdResponse = _faultController.CreateFault(fault);
+
+            Assert.IsType<CreatedResult>(createdResponse);
+        }
+
+        [Fact]
+        public void AddFault_ReturnedResponseHasCreatedMessage()
+        {
+            FaultData fault = new FaultData
+            {
+                Name = "Test Fault",
+                Description = "This is a test fault"
+            };
+
+            ActionResult<Fault> actionResult = _faultController.CreateFault(fault);
+            CreatedResult createdResult = actionResult.Result as CreatedResult;
+            var result = createdResult.Value;
+
+            Assert.Equal("Fault Created", result);
+        }
+
+        [Fact]
+        public void AddFault_ReturnsBadRequest()
+        {
+            FaultData customer = new FaultData();
+
+            _faultController.ModelState.AddModelError("Name", "Required");
+
+            var badResponse = _faultController.CreateFault(customer);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
+        }
+
+        [Fact]
+        public void AddFault_ExistingFaultReturnsBadRequest()
+        {
+            FaultData firstFault = new FaultData
+            {
+                Name = "Test Fault",
+                Description = "Test Fault"
+            };
+
+            FaultData secondFault = new FaultData
+            {
+                Name = "Test Fault",
+                Description = "Test Fault"
+            };
+
+            _faultController.CreateFault(firstFault);
+
+            var badResponse = _faultController.CreateFault(secondFault);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
         }
     }
 }
