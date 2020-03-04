@@ -83,7 +83,7 @@ namespace fix_it_tracker_back_end_unit_tests
             Assert.IsType<NotFoundObjectResult>(okResult.Result);
         }
 
-        // POST api/customer
+        // POST api/customer/
         [Fact]
         public void AddCustomer_ReturnsCreatedAtRouteResponse()
         {
@@ -128,6 +128,34 @@ namespace fix_it_tracker_back_end_unit_tests
             _customerController.ModelState.AddModelError("Name", "Required");
 
             var badResponse = _customerController.CreateCustomer(customer);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
+        }
+
+        [Fact]
+        public void AddCustomer_ExistingCustomerReturnsBadRequest()
+        {
+            CustomerData firstCustomer = new CustomerData
+            {
+                Name = "John Doe",
+                Address = "123 Somewhere Drive",
+                City = "Toronto",
+                Province = "ON",
+                PostalCode = "A1B 2C3"
+            };
+
+            CustomerData secondCustomer = new CustomerData
+            {
+                Name = "John Doe",
+                Address = "123 Somewhere Drive",
+                City = "Toronto",
+                Province = "ON",
+                PostalCode = "A1B 2C3"
+            };
+
+            _customerController.CreateCustomer(firstCustomer);
+
+            var badResponse = _customerController.CreateCustomer(secondCustomer);
 
             Assert.IsType<BadRequestObjectResult>(badResponse);
         }
