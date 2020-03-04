@@ -65,6 +65,11 @@ namespace fix_it_tracker_back_end.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates a single fault.
+        /// </summary>
+        /// <param name="faultData">The fault object that you want to create.</param>
+        /// <returns>A message confirming the fault has been created</returns>
         // POST api/fault
         [HttpPost]
         public ActionResult CreateFault([FromBody] FaultData faultData)
