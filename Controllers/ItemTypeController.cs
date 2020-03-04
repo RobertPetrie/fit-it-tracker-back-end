@@ -6,7 +6,9 @@ using AutoMapper;
 using fix_it_tracker_back_end.Data.Repositories;
 using fix_it_tracker_back_end.Dtos;
 using fix_it_tracker_back_end.Model;
+using fix_it_tracker_back_end.Model.BindingTargets;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace fix_it_tracker_back_end.Controllers
@@ -63,6 +65,32 @@ namespace fix_it_tracker_back_end.Controllers
             {
                 return Ok(itemTypeToReturn);
             }
+        }
+
+        /// <summary>
+        /// Creates a single item type.
+        /// </summary>
+        /// <param name="itemTypeData">The item type object that you want to create.</param>
+        /// <returns>A message confirming the item type has been created</returns>
+        // POST api/itemtype
+        [HttpPost]
+        public ActionResult CreateItemType([FromBody] ItemTypeData itemTypeData)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (_dataContext.ItemTypeExists(itemTypeData.ItemType))
+            {
+                return BadRequest("Item Type name already exists");
+            }
+
+            var itemType = _dataContext.AddItemType(itemTypeData.ItemType);
+
+            var uri = Request != null ? Request.GetDisplayUrl().ToString() + itemType.ItemTypeID : "";
+
+            return Created(uri, "Item Type Created");
         }
     }
 }
