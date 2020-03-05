@@ -117,5 +117,85 @@ namespace fix_it_tracker_back_end.Data.Repositories
             var resolutions = _dataContext.Resolutions;
             return resolutions;
         }
+
+        public Customer AddCustomer(Customer customer)
+        {
+            _dataContext.Add(customer);
+            _dataContext.SaveChanges();
+            return customer;
+        }
+
+        public bool CustomerExists(Customer customer) =>
+            _dataContext.Customers.Any(c => c.Name.ToUpper() == customer.Name.ToUpper()) ? true : false;
+
+        public Fault AddFault(Fault fault)
+        {
+            _dataContext.Add(fault);
+            _dataContext.SaveChanges();
+            return fault;
+        }
+
+        public bool FaultExists(Fault fault) =>
+            _dataContext.Faults.Any(f => f.Name.ToUpper() == fault.Name.ToUpper()) ? true : false;
+
+        public ItemType AddItemType(ItemType itemType)
+        {
+            _dataContext.Add(itemType);
+            _dataContext.SaveChanges();
+            return itemType;
+        }
+
+        public bool ItemTypeExists(ItemType itemType)
+        {
+            if (_dataContext.ItemTypes.Any(
+                i => i.Name.ToUpper() == itemType.Name.ToUpper() &&
+                i.Model.ToUpper() == itemType.Model.ToUpper() &&
+                i.Manufacturer.ToUpper() == itemType.Manufacturer.ToUpper()))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public Item AddItem(Item item)
+        {
+            _dataContext.Add(item);
+            _dataContext.SaveChanges();
+            return item;
+        }
+
+        public bool ItemExists(Item item)
+        {
+            if (_dataContext.Items.Any(
+                i => i.Serial.ToUpper() == item.Serial.ToUpper() &&
+                i.ItemType.ItemTypeID == item.ItemType.ItemTypeID))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public Resolution AddResolution(Resolution resolution)
+        {
+            _dataContext.Add(resolution);
+            _dataContext.SaveChanges();
+            return resolution;
+        }
+
+        public bool ResolutionExists(Resolution resolution) =>
+            _dataContext.Resolutions.Any(r => r.Name.ToUpper() == resolution.Name.ToUpper()) ? true : false;
+
+        public Repair AddRepair(Repair repair)
+        {
+            _dataContext.Add(repair);
+            _dataContext.SaveChanges();
+            return repair;
+        }
     }
 }

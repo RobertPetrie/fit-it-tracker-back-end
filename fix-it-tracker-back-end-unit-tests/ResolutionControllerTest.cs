@@ -1,6 +1,8 @@
 ﻿using fix_it_tracker_back_end.Controllers;
 using fix_it_tracker_back_end.Data.Repositories;
 using fix_it_tracker_back_end.Dtos;
+using fix_it_tracker_back_end.Model;
+using fix_it_tracker_back_end.Model.BindingTargets;
 using fix_it_tracker_back_end_unit_tests.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -80,6 +82,71 @@ namespace fix_it_tracker_back_end_unit_tests
         {
             var okResult = _resolutionController.GetResolution(NON_EXISTING_RESOLUTION_ID);
             Assert.IsType<NotFoundObjectResult>(okResult.Result);
+        }
+
+        // POST api/resolution/
+        [Fact]
+        public void AddResolution_ReturnsCreatedResponse()
+        {
+            ResolutionData resolution = new ResolutionData
+            {
+                Name = "Test Resolution",
+                Description = "This is a test resolution"
+            };
+
+            var createdResponse = _resolutionController.CreateResolution(resolution);
+
+            Assert.IsType<CreatedResult>(createdResponse);
+        }
+
+        [Fact]
+        public void AddResolution_ReturnedResponseHasCreatedMessage()
+        {
+            ResolutionData resolution = new ResolutionData
+            {
+                Name = "Test Resolution",
+                Description = "This is a test resolution"
+            };
+
+            ActionResult<Resolution> actionResult = _resolutionController.CreateResolution(resolution);
+            CreatedResult createdResult = actionResult.Result as CreatedResult;
+            var result = createdResult.Value;
+
+            Assert.Equal("Resolution Created", result);
+        }
+
+        [Fact]
+        public void AddResolution_ReturnsBadRequest()
+        {
+            ResolutionData customer = new ResolutionData();
+
+            _resolutionController.ModelState.AddModelError("Name", "Required");
+
+            var badResponse = _resolutionController.CreateResolution(customer);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
+        }
+
+        [Fact]
+        public void AddResolution_ExistingResolutionReturnsBadRequest()
+        {
+            ResolutionData firstResolution = new ResolutionData
+            {
+                Name = "Test Resolution",
+                Description = "Test Resolution"
+            };
+
+            ResolutionData secondResolution = new ResolutionData
+            {
+                Name = "Test Resolution",
+                Description = "Test Resolution"
+            };
+
+            _resolutionController.CreateResolution(firstResolution);
+
+            var badResponse = _resolutionController.CreateResolution(secondResolution);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
         }
     }
 }

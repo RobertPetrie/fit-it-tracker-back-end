@@ -11,6 +11,7 @@ namespace fix_it_tracker_back_end.Model
         public int CustomerID { get; set; }
 
         [Required, MaxLength(50)]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Please specify a name that is between 3 and 50 characters")]
         public string Name { get; set; }
 
         [MaxLength(60)]

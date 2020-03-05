@@ -9,11 +9,9 @@ namespace fix_it_tracker_back_end.Dtos
         public int FaultID { get; set; }
 
         [JsonPropertyName("faultName")]
-        [Required, MaxLength(50)]
         public string Name { get; set; }
 
         [JsonPropertyName("faultDescription")]
-        [MaxLength(50)]
         public string Description { get; set; }
     }
 }

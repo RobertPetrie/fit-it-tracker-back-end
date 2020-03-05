@@ -1,6 +1,8 @@
 ﻿using fix_it_tracker_back_end.Controllers;
 using fix_it_tracker_back_end.Data.Repositories;
 using fix_it_tracker_back_end.Dtos;
+using fix_it_tracker_back_end.Model;
+using fix_it_tracker_back_end.Model.BindingTargets;
 using fix_it_tracker_back_end_unit_tests.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -114,6 +116,60 @@ namespace fix_it_tracker_back_end_unit_tests
         {
             var okResult = _repairController.GetCustomerRepairs(NON_EXISTING_CUSTOMER_ID);
             Assert.IsType<NotFoundObjectResult>(okResult.Result);
+        }
+
+        // POST api/repair/
+        [Fact]
+        public void AddRepair_ReturnsCreatedResponse()
+        {
+            RepairData repair = new RepairData
+            {
+                Customer = 1
+            };
+
+            var createdResponse = _repairController.CreateRepair(repair);
+
+            Assert.IsType<CreatedResult>(createdResponse);
+        }
+
+        [Fact]
+        public void AddRepair_ReturnedResponseHasCreatedMessage()
+        {
+            RepairData repair = new RepairData
+            {
+                Customer = 1
+            };
+
+            ActionResult<Repair> actionResult = _repairController.CreateRepair(repair);
+            CreatedResult createdResult = actionResult.Result as CreatedResult;
+            var result = createdResult.Value;
+
+            Assert.Equal("Repair Created", result);
+        }
+
+        [Fact]
+        public void AddRepair_ReturnsBadRequest()
+        {
+            RepairData repair = new RepairData();
+
+            _repairController.ModelState.AddModelError("Customer", "Required");
+
+            var badResponse = _repairController.CreateRepair(repair);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
+        }
+
+        [Fact]
+        public void AddRepair_CustomerNotExistReturnsBadRequest()
+        {
+            RepairData repair = new RepairData
+            {
+                Customer = 100
+            };
+
+            var badResponse = _repairController.CreateRepair(repair);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
         }
     }
 }

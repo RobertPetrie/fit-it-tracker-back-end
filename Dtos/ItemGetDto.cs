@@ -14,11 +14,9 @@ namespace fix_it_tracker_back_end.Dtos
         public int ItemID { get; set; }
 
         [JsonPropertyName("serial")]
-        [Required, MaxLength(50)]
         public string Serial { get; set; }
 
         [JsonPropertyName("itemType")]
-        [Required]
         public ItemTypeGetDto ItemType { get; set; }
     }
 }

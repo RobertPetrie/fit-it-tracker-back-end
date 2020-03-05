@@ -1,6 +1,8 @@
 ﻿using fix_it_tracker_back_end.Controllers;
 using fix_it_tracker_back_end.Data.Repositories;
 using fix_it_tracker_back_end.Dtos;
+using fix_it_tracker_back_end.Model;
+using fix_it_tracker_back_end.Model.BindingTargets;
 using fix_it_tracker_back_end_unit_tests.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -80,6 +82,75 @@ namespace fix_it_tracker_back_end_unit_tests
         {
             var okResult = _itemTypeController.GetItemType(NON_EXISTING_ITEM_TYPE_ID);
             Assert.IsType<NotFoundObjectResult>(okResult.Result);
+        }
+
+        // POST api/itemtype/
+        [Fact]
+        public void AddItemType_ReturnsCreatedResponse()
+        {
+            ItemTypeData itemType = new ItemTypeData
+            {
+                Name = "Test Name",
+                Model = "Test Model",
+                Manufacturer = "Test Manufacturer"
+            };
+
+            var createdResponse = _itemTypeController.CreateItemType(itemType);
+
+            Assert.IsType<CreatedResult>(createdResponse);
+        }
+
+        [Fact]
+        public void AddItemType_ReturnedResponseHasCreatedMessage()
+        {
+            ItemTypeData itemType = new ItemTypeData
+            {
+                Name = "Test Name",
+                Model = "Test Model",
+                Manufacturer = "Test Manufacturer"
+            };
+
+            ActionResult<ItemType> actionResult = _itemTypeController.CreateItemType(itemType);
+            CreatedResult createdResult = actionResult.Result as CreatedResult;
+            var result = createdResult.Value;
+
+            Assert.Equal("Item Type Created", result);
+        }
+
+        [Fact]
+        public void AddItemType_ReturnsBadRequest()
+        {
+            ItemTypeData itemType = new ItemTypeData();
+
+            _itemTypeController.ModelState.AddModelError("Name", "Required");
+
+            var badResponse = _itemTypeController.CreateItemType(itemType);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
+        }
+
+        [Fact]
+        public void AddItemType_ExistingitemTypeReturnsBadRequest()
+        {
+            ItemTypeData firstItemType = new ItemTypeData
+            {
+                Name = "Test Name",
+                Model = "Test Model",
+                Manufacturer = "Test Manufacturer"
+            };
+
+            ItemTypeData secondItemType = new ItemTypeData
+            {
+                Name = "Test Name",
+                Model = "Test Model",
+                Manufacturer = "Test Manufacturer"
+            };
+
+            _itemTypeController.CreateItemType(firstItemType);
+
+            var badResponse = _itemTypeController.CreateItemType(secondItemType);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
         }
     }
 }

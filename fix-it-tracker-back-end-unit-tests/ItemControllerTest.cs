@@ -2,6 +2,7 @@
 using fix_it_tracker_back_end.Data.Repositories;
 using fix_it_tracker_back_end.Dtos;
 using fix_it_tracker_back_end.Model;
+using fix_it_tracker_back_end.Model.BindingTargets;
 using fix_it_tracker_back_end_unit_tests.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -99,5 +100,83 @@ namespace fix_it_tracker_back_end_unit_tests
             Assert.IsType<NotFoundObjectResult>(okResult.Result);
         }
 
+        // POST api/item/
+        [Fact]
+        public void AddItem_ReturnsCreatedResponse()
+        {
+            ItemData item = new ItemData
+            {
+                Serial = "123456",
+                ItemType = 1
+            };
+
+            var createdResponse = _itemController.CreateItem(item);
+
+            Assert.IsType<CreatedResult>(createdResponse);
+        }
+
+        [Fact]
+        public void AddItem_ReturnedResponseHasCreatedMessage()
+        {
+            ItemData item = new ItemData
+            {
+                Serial = "123456",
+                ItemType = 1
+            };
+
+            ActionResult<Item> actionResult = _itemController.CreateItem(item);
+            CreatedResult createdResult = actionResult.Result as CreatedResult;
+            var result = createdResult.Value;
+
+            Assert.Equal("Item Created", result);
+        }
+
+        [Fact]
+        public void AddItem_ReturnsBadRequest()
+        {
+            ItemData item = new ItemData();
+
+            _itemController.ModelState.AddModelError("Serial", "Required");
+
+            var badResponse = _itemController.CreateItem(item);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
+        }
+
+        [Fact]
+        public void AddItem_ExistingItemReturnsBadRequest()
+        {
+            ItemData firstItem = new ItemData
+            {
+                Serial = "123456",
+                ItemType = 1
+            };
+
+            ItemData secondItem = new ItemData
+            {
+                Serial = "123456",
+                ItemType = 1
+            };
+
+            _itemController.CreateItem(firstItem);
+
+            var badResponse = _itemController.CreateItem(secondItem);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
+        }
+
+        [Fact]
+        public void AddItem_ItemTypeNotExistReturnsBadRequest()
+        {
+            ItemData item = new ItemData
+            {
+                Serial = "123456",
+                ItemType = 100
+            };
+
+            var badResponse = _itemController.CreateItem(item);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
+        }
     }
 }

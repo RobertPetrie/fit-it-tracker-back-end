@@ -6,7 +6,9 @@ using AutoMapper;
 using fix_it_tracker_back_end.Data.Repositories;
 using fix_it_tracker_back_end.Dtos;
 using fix_it_tracker_back_end.Model;
+using fix_it_tracker_back_end.Model.BindingTargets;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -87,6 +89,37 @@ namespace fix_it_tracker_back_end.Controllers
             {
                 return Ok(repairToReturn);
             }
+        }
+
+        /// <summary>
+        /// Creates a single repair.
+        /// </summary>
+        /// <param name="repairData">The customer Id you want to create a repair for </param>
+        /// <returns>A message confirming the repair has been created</returns>
+        // POST api/repair
+        [HttpPost]
+        public ActionResult CreateRepair([FromBody] RepairData repairData)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Customer customer = _dataContext.GetCustomer(repairData.Customer);
+
+            if (customer == null)
+            {
+                return BadRequest("Customer doesn't exist");
+            }
+
+            Repair repair = repairData.Repair;
+            repair.Customer = customer;
+
+            var createdRepair = _dataContext.AddRepair(repair);
+
+            var uri = Request != null ? Request.GetDisplayUrl().ToString() + createdRepair.RepairID : "";
+
+            return Created(uri, "Repair Created");
         }
     }
 }

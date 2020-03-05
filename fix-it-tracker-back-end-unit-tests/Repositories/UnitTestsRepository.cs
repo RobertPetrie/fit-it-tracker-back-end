@@ -34,6 +34,86 @@ namespace fix_it_tracker_back_end_unit_tests
             _resolutions = noResolutions == true ? new List<Resolution>() : TestData.GetResolutions();
         }
 
+        public Customer AddCustomer(Customer customer)
+        {
+            customer.CustomerID = GetCustomers().LastOrDefault().CustomerID++;
+            _customers.Add(customer);
+            return customer;
+        }
+
+        public Fault AddFault(Fault fault)
+        {
+            fault.FaultID = GetFaults().LastOrDefault().FaultID++;
+            _faults.Add(fault);
+            return fault;
+        }
+
+        public ItemType AddItemType(ItemType itemType)
+        {
+            itemType.ItemTypeID = GetItemTypes().LastOrDefault().ItemTypeID++;
+            _itemTypes.Add(itemType);
+            return itemType;
+        }
+
+        public Item AddItem(Item item)
+        {
+            item.ItemID = GetItems().LastOrDefault().ItemID++;
+            _items.Add(item);
+            return item;
+        }
+
+        public Resolution AddResolution(Resolution resolution)
+        {
+            resolution.ResolutionID = GetResolutions().LastOrDefault().ResolutionID++;
+            _resolutions.Add(resolution);
+            return resolution;
+        }
+
+        public Repair AddRepair(Repair repair)
+        {
+            repair.RepairID = GetRepairs().LastOrDefault().RepairID++;
+            _repairs.Add(repair);
+            return repair;
+        }
+
+        public bool CustomerExists(Customer customer) =>
+            _customers.Any(c => c.Name.ToUpper() == customer.Name.ToUpper()) ? true : false;
+
+        public bool FaultExists(Fault fault) =>
+            _faults.Any(f => f.Name.ToUpper() == fault.Name.ToUpper()) ? true : false;
+
+        public bool ItemTypeExists(ItemType itemType)
+        {
+            if (_itemTypes.Any(
+                i => i.Name.ToUpper() == itemType.Name.ToUpper() &&
+                i.Model.ToUpper() == itemType.Model.ToUpper() &&
+                i.Manufacturer.ToUpper() == itemType.Manufacturer.ToUpper()))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool ItemExists(Item item)
+        {
+            if (_items.Any(
+                i => i.Serial.ToUpper() == item.Serial.ToUpper() &&
+                i.ItemType.ItemTypeID == item.ItemType.ItemTypeID))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool ResolutionExists(Resolution resolution) =>
+             _resolutions.Any(r => r.Name.ToUpper() == resolution.Name.ToUpper()) ? true : false;
+
         public Customer GetCustomer(int id)
         {
             var customer = _customers.FirstOrDefault(c => c.CustomerID == id);

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using fix_it_tracker_back_end.Data.Repositories;
 using fix_it_tracker_back_end.Dtos;
 using fix_it_tracker_back_end.Model;
-using Microsoft.AspNetCore.Http;
+using fix_it_tracker_back_end.Model.BindingTargets;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace fix_it_tracker_back_end.Controllers
@@ -64,6 +63,32 @@ namespace fix_it_tracker_back_end.Controllers
             {
                 return Ok(faultToReturn);
             }
+        }
+
+        /// <summary>
+        /// Creates a single fault.
+        /// </summary>
+        /// <param name="faultData">The fault object that you want to create.</param>
+        /// <returns>A message confirming the fault has been created</returns>
+        // POST api/fault
+        [HttpPost]
+        public ActionResult CreateFault([FromBody] FaultData faultData)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (_dataContext.FaultExists(faultData.Fault))
+            {
+                return BadRequest("Fault name already exists");
+            }
+
+            var fault = _dataContext.AddFault(faultData.Fault);
+
+            var uri = Request != null ? Request.GetDisplayUrl().ToString() + fault.FaultID : "";
+
+            return Created(uri, "Fault Created");
         }
     }
 }
