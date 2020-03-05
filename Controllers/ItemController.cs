@@ -6,7 +6,9 @@ using AutoMapper;
 using fix_it_tracker_back_end.Data.Repositories;
 using fix_it_tracker_back_end.Dtos;
 using fix_it_tracker_back_end.Model;
+using fix_it_tracker_back_end.Model.BindingTargets;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -66,6 +68,42 @@ namespace fix_it_tracker_back_end.Controllers
             {
                 return Ok(itemToReturn);
             }
+        }
+
+        /// <summary>
+        /// Creates a single item.
+        /// </summary>
+        /// <param name="itemData">The serial number and item type you want to create. </param>
+        /// <returns>A message confirming the item has been created</returns>
+        // POST api/item
+        [HttpPost]
+        public ActionResult CreateItem([FromBody] ItemData itemData)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            ItemType itemType = _dataContext.GetItemType(itemData.ItemType);
+
+            if (itemType == null)
+            {
+                return BadRequest("Item Type doesn't exist");
+            }
+
+            if (_dataContext.ItemExists(itemData.Item))
+            {
+                return BadRequest("Item already exists");
+            }
+
+            Item item = itemData.Item;
+            item.ItemType = itemType;
+
+            var createdItem = _dataContext.AddItem(item);
+
+            var uri = Request != null ? Request.GetDisplayUrl().ToString() + createdItem.ItemID : "";
+
+            return Created(uri, "Item Created");
         }
     }
 }
