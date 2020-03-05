@@ -190,5 +190,12 @@ namespace fix_it_tracker_back_end.Data.Repositories
 
         public bool ResolutionExists(Resolution resolution) =>
             _dataContext.Resolutions.Any(r => r.Name.ToUpper() == resolution.Name.ToUpper()) ? true : false;
+
+        public Repair AddRepair(Repair repair)
+        {
+            _dataContext.Add(repair);
+            _dataContext.SaveChanges();
+            return repair;
+        }
     }
 }

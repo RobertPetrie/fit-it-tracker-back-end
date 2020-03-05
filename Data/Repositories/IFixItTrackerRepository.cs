@@ -41,5 +41,7 @@ namespace fix_it_tracker_back_end.Data.Repositories
 
         Resolution AddResolution(Resolution resolution);
         bool ResolutionExists(Resolution resolution);
+
+        Repair AddRepair(Repair repair);
     }
 }

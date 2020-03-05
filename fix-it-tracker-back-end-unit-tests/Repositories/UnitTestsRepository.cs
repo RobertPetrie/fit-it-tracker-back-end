@@ -69,6 +69,13 @@ namespace fix_it_tracker_back_end_unit_tests
             return resolution;
         }
 
+        public Repair AddRepair(Repair repair)
+        {
+            repair.RepairID = GetRepairs().LastOrDefault().RepairID++;
+            _repairs.Add(repair);
+            return repair;
+        }
+
         public bool CustomerExists(Customer customer) =>
             _customers.Any(c => c.Name.ToUpper() == customer.Name.ToUpper()) ? true : false;
 
@@ -177,6 +184,5 @@ namespace fix_it_tracker_back_end_unit_tests
         {
             return _resolutions;
         }
-
     }
 }
