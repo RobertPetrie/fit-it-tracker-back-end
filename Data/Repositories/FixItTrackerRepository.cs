@@ -160,5 +160,25 @@ namespace fix_it_tracker_back_end.Data.Repositories
             }
         }
 
+        public Item AddItem(Item item)
+        {
+            _dataContext.Add(item);
+            _dataContext.SaveChanges();
+            return item;
+        }
+
+        public bool ItemExists(Item item)
+        {
+            if (_dataContext.Items.Any(
+                i => i.Serial.ToUpper() == item.Serial.ToUpper() &&
+                i.ItemType.ItemTypeID == item.ItemType.ItemTypeID))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

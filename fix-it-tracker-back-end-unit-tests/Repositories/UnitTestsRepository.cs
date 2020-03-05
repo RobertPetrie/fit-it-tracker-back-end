@@ -55,6 +55,13 @@ namespace fix_it_tracker_back_end_unit_tests
             return itemType;
         }
 
+        public Item AddItem(Item item)
+        {
+            item.ItemID = GetItems().LastOrDefault().ItemID++;
+            _items.Add(item);
+            return item;
+        }
+
         public bool CustomerExists(Customer customer) =>
             _customers.Any(c => c.Name.ToUpper() == customer.Name.ToUpper()) ? true : false;
 
@@ -67,6 +74,20 @@ namespace fix_it_tracker_back_end_unit_tests
                 i => i.Name.ToUpper() == itemType.Name.ToUpper() &&
                 i.Model.ToUpper() == itemType.Model.ToUpper() &&
                 i.Manufacturer.ToUpper() == itemType.Manufacturer.ToUpper()))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool ItemExists(Item item)
+        {
+            if (_items.Any(
+                i => i.Serial.ToUpper() == item.Serial.ToUpper() &&
+                i.ItemType.ItemTypeID == item.ItemType.ItemTypeID))
             {
                 return true;
             }

@@ -35,5 +35,8 @@ namespace fix_it_tracker_back_end.Data.Repositories
 
         ItemType AddItemType(ItemType itemType);
         bool ItemTypeExists(ItemType itemType);
+
+        Item AddItem(Item item);
+        bool ItemExists(Item item);
     }
 }
