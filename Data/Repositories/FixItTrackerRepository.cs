@@ -180,5 +180,15 @@ namespace fix_it_tracker_back_end.Data.Repositories
                 return false;
             }
         }
+
+        public Resolution AddResolution(Resolution resolution)
+        {
+            _dataContext.Add(resolution);
+            _dataContext.SaveChanges();
+            return resolution;
+        }
+
+        public bool ResolutionExists(Resolution resolution) =>
+            _dataContext.Resolutions.Any(r => r.Name.ToUpper() == resolution.Name.ToUpper()) ? true : false;
     }
 }

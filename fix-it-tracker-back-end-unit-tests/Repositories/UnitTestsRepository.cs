@@ -62,6 +62,13 @@ namespace fix_it_tracker_back_end_unit_tests
             return item;
         }
 
+        public Resolution AddResolution(Resolution resolution)
+        {
+            resolution.ResolutionID = GetResolutions().LastOrDefault().ResolutionID++;
+            _resolutions.Add(resolution);
+            return resolution;
+        }
+
         public bool CustomerExists(Customer customer) =>
             _customers.Any(c => c.Name.ToUpper() == customer.Name.ToUpper()) ? true : false;
 
@@ -96,6 +103,9 @@ namespace fix_it_tracker_back_end_unit_tests
                 return false;
             }
         }
+
+        public bool ResolutionExists(Resolution resolution) =>
+             _resolutions.Any(r => r.Name.ToUpper() == resolution.Name.ToUpper()) ? true : false;
 
         public Customer GetCustomer(int id)
         {
@@ -167,5 +177,6 @@ namespace fix_it_tracker_back_end_unit_tests
         {
             return _resolutions;
         }
+
     }
 }

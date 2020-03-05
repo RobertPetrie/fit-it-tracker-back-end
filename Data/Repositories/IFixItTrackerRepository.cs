@@ -38,5 +38,8 @@ namespace fix_it_tracker_back_end.Data.Repositories
 
         Item AddItem(Item item);
         bool ItemExists(Item item);
+
+        Resolution AddResolution(Resolution resolution);
+        bool ResolutionExists(Resolution resolution);
     }
 }
