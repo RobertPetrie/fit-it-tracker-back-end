@@ -184,5 +184,18 @@ namespace fix_it_tracker_back_end_unit_tests
         {
             return _resolutions;
         }
+
+        public Customer ReplaceCustomer(int id, Customer customer)
+        {
+            var customerToReplace = _customers.SingleOrDefault(c => c.CustomerID == id);
+
+            customerToReplace.Name = customer.Name;
+            customerToReplace.Address = customer.Address;
+            customerToReplace.PostalCode = customer.PostalCode;
+            customerToReplace.City = customer.City;
+            customerToReplace.Province = customer.Province;
+
+            return customer;
+        }
     }
 }
