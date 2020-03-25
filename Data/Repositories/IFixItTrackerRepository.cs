@@ -43,5 +43,9 @@ namespace fix_it_tracker_back_end.Data.Repositories
         bool ResolutionExists(Resolution resolution);
 
         Repair AddRepair(Repair repair);
+
+        void ReplaceCustomer(int customerId, Customer customer);
+
+        void ReplaceItemType(int itemTypeId, ItemType itemType);
     }
 }

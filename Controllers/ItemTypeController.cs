@@ -92,5 +92,33 @@ namespace fix_it_tracker_back_end.Controllers
 
             return Created(uri, "Item Type Created");
         }
+
+        /// <summary>
+        /// Replace a value of a specific property for a single item type.
+        /// </summary>
+        /// <param name="id">The existing item type id.</param>
+        /// <param name="itemTypeData">The item type object the values that you want updated.</param>
+        /// <returns>Returns OK with a confirmation message</returns>
+        /// PUT api/itemtype/5
+        [HttpPut("{id}")]
+        public ActionResult ReplaceItemType(int id, [FromBody] ItemTypeData itemTypeData)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existingItemType = _dataContext.GetItemType(id);
+
+            if (existingItemType == null)
+            {
+                return BadRequest($"Item Type ID: {id} doesn't exist");
+            }
+
+            _dataContext.ReplaceItemType(id, itemTypeData.ItemType);
+
+            return Ok("The Item Type has been updated.");
+        }
+
     }
 }

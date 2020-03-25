@@ -184,5 +184,25 @@ namespace fix_it_tracker_back_end_unit_tests
         {
             return _resolutions;
         }
+
+        public void ReplaceCustomer(int id, Customer customer)
+        {
+            var customerToReplace = _customers.SingleOrDefault(c => c.CustomerID == id);
+
+            customerToReplace.Name = customer.Name;
+            customerToReplace.Address = customer.Address;
+            customerToReplace.PostalCode = customer.PostalCode;
+            customerToReplace.City = customer.City;
+            customerToReplace.Province = customer.Province;
+        }
+
+        public void ReplaceItemType(int itemTypeId, ItemType itemType)
+        {
+            var itemTypeToReplace = _itemTypes.SingleOrDefault(i => i.ItemTypeID == itemTypeId);
+
+            itemTypeToReplace.Name = itemType.Name;
+            itemTypeToReplace.Model = itemType.Model;
+            itemTypeToReplace.Manufacturer = itemType.Manufacturer;
+        }
     }
 }

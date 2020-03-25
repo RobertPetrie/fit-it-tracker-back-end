@@ -197,5 +197,31 @@ namespace fix_it_tracker_back_end.Data.Repositories
             _dataContext.SaveChanges();
             return repair;
         }
+
+        public void ReplaceCustomer(int customerId, Customer customer)
+        {
+            var customerToUpdate = _dataContext.Customers.Find(customerId);
+
+            customerToUpdate.Name = customer.Name;
+            customerToUpdate.Address = customer.Address;
+            customerToUpdate.PostalCode = customer.PostalCode;
+            customerToUpdate.City = customer.City;
+            customerToUpdate.Province = customer.Province;
+
+            _dataContext.Update(customerToUpdate);
+            _dataContext.SaveChanges();
+        }
+
+        public void ReplaceItemType(int itemTypeId, ItemType itemType)
+        {
+            var itemTypeToUpdate = _dataContext.ItemTypes.Find(itemTypeId);
+
+            itemTypeToUpdate.Name = itemType.Name;
+            itemTypeToUpdate.Model = itemType.Model;
+            itemTypeToUpdate.Manufacturer = itemType.Manufacturer;
+
+            _dataContext.Update(itemTypeToUpdate);
+            _dataContext.SaveChanges();
+        }
     }
 }
