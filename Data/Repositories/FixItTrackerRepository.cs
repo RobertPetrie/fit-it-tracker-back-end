@@ -197,5 +197,20 @@ namespace fix_it_tracker_back_end.Data.Repositories
             _dataContext.SaveChanges();
             return repair;
         }
+
+        public Customer ReplaceCustomer(int customerId, Customer customer)
+        {
+            var customerToUpdate = _dataContext.Customers.Find(customerId);
+
+            customerToUpdate.Name = customer.Name;
+            customerToUpdate.Address = customer.Address;
+            customerToUpdate.PostalCode = customer.PostalCode;
+            customerToUpdate.City = customer.City;
+            customerToUpdate.Province = customer.Province;
+
+            _dataContext.Update(customer);
+            _dataContext.SaveChanges();
+            return customer;
+        }
     }
 }
