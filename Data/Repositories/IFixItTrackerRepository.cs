@@ -44,6 +44,8 @@ namespace fix_it_tracker_back_end.Data.Repositories
 
         Repair AddRepair(Repair repair);
 
-        Customer ReplaceCustomer(int customerId, Customer customer);
+        void ReplaceCustomer(int customerId, Customer customer);
+
+        void ReplaceItemType(int itemTypeId, ItemType itemType);
     }
 }
