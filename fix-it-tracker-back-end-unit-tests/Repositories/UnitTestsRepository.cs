@@ -185,7 +185,7 @@ namespace fix_it_tracker_back_end_unit_tests
             return _resolutions;
         }
 
-        public Customer ReplaceCustomer(int id, Customer customer)
+        public void ReplaceCustomer(int id, Customer customer)
         {
             var customerToReplace = _customers.SingleOrDefault(c => c.CustomerID == id);
 
@@ -194,8 +194,15 @@ namespace fix_it_tracker_back_end_unit_tests
             customerToReplace.PostalCode = customer.PostalCode;
             customerToReplace.City = customer.City;
             customerToReplace.Province = customer.Province;
+        }
 
-            return customer;
+        public void ReplaceItemType(int itemTypeId, ItemType itemType)
+        {
+            var itemTypeToReplace = _itemTypes.SingleOrDefault(i => i.ItemTypeID == itemTypeId);
+
+            itemTypeToReplace.Name = itemType.Name;
+            itemTypeToReplace.Model = itemType.Model;
+            itemTypeToReplace.Manufacturer = itemType.Manufacturer;
         }
     }
 }
