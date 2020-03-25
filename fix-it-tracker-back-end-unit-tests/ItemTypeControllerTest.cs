@@ -152,5 +152,66 @@ namespace fix_it_tracker_back_end_unit_tests
 
             Assert.IsType<BadRequestObjectResult>(badResponse);
         }
+
+        // PUT api/itemtype/
+        [Fact]
+        public void ReplaceItemType_ReturnsOkResult()
+        {
+            ItemTypeData itemType = new ItemTypeData
+            {
+                Name = "Test Name",
+                Model = "Test Model",
+                Manufacturer = "Test Manufacturer"
+            };
+
+            var okResult = _itemTypeController.ReplaceItemType(1, itemType);
+
+            Assert.IsType<OkObjectResult>(okResult);
+        }
+
+        [Fact]
+        public void ReplaceItemType_ReturnedResponseHasResponseMessage()
+        {
+            ItemTypeData itemType = new ItemTypeData
+            {
+                Name = "Test Name",
+                Model = "Test Model",
+                Manufacturer = "Test Manufacturer"
+            };
+
+            ActionResult<ItemTypeData> actionResult = _itemTypeController.ReplaceItemType(1, itemType);
+            OkObjectResult createdResult = actionResult.Result as OkObjectResult;
+            var result = createdResult.Value;
+
+            Assert.Equal("The Item Type has been updated.", result);
+        }
+
+        [Fact]
+        public void ReplaceItemType_ReturnsBadRequest()
+        {
+            ItemTypeData itemType = new ItemTypeData();
+
+            _itemTypeController.ModelState.AddModelError("Name", "Required");
+
+            var badResponse = _itemTypeController.ReplaceItemType(1, itemType);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
+        }
+
+        [Fact]
+        public void ReplaceItemType_NonExistingitemTypeReturnsBadRequest()
+        {
+            ItemTypeData itemType = new ItemTypeData
+            {
+                Name = "Test Name",
+                Model = "Test Model",
+                Manufacturer = "Test Manufacturer"
+            };
+
+            var badResponse = _itemTypeController.ReplaceItemType(1234, itemType);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
+        }
+
     }
 }
