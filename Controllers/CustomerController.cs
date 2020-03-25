@@ -104,6 +104,13 @@ namespace fix_it_tracker_back_end.Controllers
                 return BadRequest(ModelState);
             }
 
+            var existingCustomer = _dataContext.GetCustomer(id);
+
+            if (existingCustomer == null)
+            {
+                return BadRequest($"Customer ID: {id} doesn't exist");
+            }
+
             if (customerData.Name != _dataContext.GetCustomer(id).Name)
             {
                 if (_dataContext.CustomerExists(customerData.Customer))
