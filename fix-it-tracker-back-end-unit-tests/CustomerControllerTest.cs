@@ -210,6 +210,23 @@ namespace fix_it_tracker_back_end_unit_tests
         }
 
         [Fact]
+        public void ReplaceCustomer_NonExistingCustomerReturnsBadRequest()
+        {
+            CustomerData customer = new CustomerData
+            {
+                Name = "John Doe",
+                Address = "123 Somewhere Drive",
+                City = "Toronto",
+                Province = "ON",
+                PostalCode = "A1B 2C3"
+            };
+
+            var badResponse = _customerController.ReplaceCustomer(1234, customer);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
+        }
+
+        [Fact]
         public void ReplaceCustomer_ExistingCustomerReturnsBadRequest()
         {
             CustomerData firstCustomer = new CustomerData
