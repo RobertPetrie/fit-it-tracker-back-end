@@ -159,5 +159,82 @@ namespace fix_it_tracker_back_end_unit_tests
 
             Assert.IsType<BadRequestObjectResult>(badResponse);
         }
+
+        // PUT api/customer/
+        [Fact]
+        public void ReplaceCustomer_ReturnsOkResult()
+        {
+            CustomerData customer = new CustomerData
+            {
+                Name = "John Doe",
+                Address = "123 Somewhere Drive",
+                City = "Toronto",
+                Province = "ON",
+                PostalCode = "A1B 2C3"
+            };
+
+            var okResult = _customerController.ReplaceCustomer(1, customer);
+
+            Assert.IsType<OkObjectResult>(okResult);
+        }
+
+        [Fact]
+        public void ReplaceCustomer_ReturnedResponseHasResponseMessage()
+        {
+            CustomerData customer = new CustomerData
+            {
+                Name = "John Doe",
+                Address = "123 Somewhere Drive",
+                City = "Toronto",
+                Province = "ON",
+                PostalCode = "A1B 2C3"
+            };
+
+            ActionResult<CustomerData> actionResult = _customerController.ReplaceCustomer(1, customer);
+            OkObjectResult createdResult = actionResult.Result as OkObjectResult;
+            var result = createdResult.Value;
+
+            Assert.Equal("The customer has been updated.", result);
+        }
+
+        [Fact]
+        public void ReplaceCustomer_ReturnsBadRequest()
+        {
+            CustomerData customer = new CustomerData();
+
+            _customerController.ModelState.AddModelError("Name", "Required");
+
+            var badResponse = _customerController.ReplaceCustomer(1, customer);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
+        }
+
+        [Fact]
+        public void ReplaceCustomer_ExistingCustomerReturnsBadRequest()
+        {
+            CustomerData firstCustomer = new CustomerData
+            {
+                Name = "John Doe",
+                Address = "123 Somewhere Drive",
+                City = "Toronto",
+                Province = "ON",
+                PostalCode = "A1B 2C3"
+            };
+
+            CustomerData secondCustomer = new CustomerData
+            {
+                Name = "John Doe",
+                Address = "123 Somewhere Drive",
+                City = "Toronto",
+                Province = "ON",
+                PostalCode = "A1B 2C3"
+            };
+
+            _customerController.ReplaceCustomer(1, firstCustomer);
+
+            var badResponse = _customerController.ReplaceCustomer(2, secondCustomer);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
+        }
     }
 }
