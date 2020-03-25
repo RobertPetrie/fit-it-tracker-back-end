@@ -198,7 +198,7 @@ namespace fix_it_tracker_back_end.Data.Repositories
             return repair;
         }
 
-        public Customer ReplaceCustomer(int customerId, Customer customer)
+        public void ReplaceCustomer(int customerId, Customer customer)
         {
             var customerToUpdate = _dataContext.Customers.Find(customerId);
 
@@ -208,9 +208,20 @@ namespace fix_it_tracker_back_end.Data.Repositories
             customerToUpdate.City = customer.City;
             customerToUpdate.Province = customer.Province;
 
-            _dataContext.Update(customer);
+            _dataContext.Update(customerToUpdate);
             _dataContext.SaveChanges();
-            return customer;
+        }
+
+        public void ReplaceItemType(int itemTypeId, ItemType itemType)
+        {
+            var itemTypeToUpdate = _dataContext.ItemTypes.Find(itemTypeId);
+
+            itemTypeToUpdate.Name = itemType.Name;
+            itemTypeToUpdate.Model = itemType.Model;
+            itemTypeToUpdate.Manufacturer = itemType.Manufacturer;
+
+            _dataContext.Update(itemTypeToUpdate);
+            _dataContext.SaveChanges();
         }
     }
 }
