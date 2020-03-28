@@ -1,4 +1,6 @@
 ﻿using fix_it_tracker_back_end.Model;
+using fix_it_tracker_back_end.Model.BindingTargets;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -221,6 +223,12 @@ namespace fix_it_tracker_back_end.Data.Repositories
             itemTypeToUpdate.Manufacturer = itemType.Manufacturer;
 
             _dataContext.Update(itemTypeToUpdate);
+            _dataContext.SaveChanges();
+        }
+
+        public void UpdateRepair(Repair repair)
+        {
+            _dataContext.Update(repair);
             _dataContext.SaveChanges();
         }
     }

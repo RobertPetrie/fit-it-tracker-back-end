@@ -4,7 +4,10 @@ using fix_it_tracker_back_end.Dtos;
 using fix_it_tracker_back_end.Model;
 using fix_it_tracker_back_end.Model.BindingTargets;
 using fix_it_tracker_back_end_unit_tests.Repositories;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -168,6 +171,84 @@ namespace fix_it_tracker_back_end_unit_tests
             };
 
             var badResponse = _repairController.CreateRepair(repair);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
+        }
+
+        //  PATCH api/repair/5
+        [Fact]
+        public void UpdateRepair_ReturnsOkResult()
+        {
+            var jsonPatchDocument = new JsonPatchDocument<RepairPatchData>();
+            var jsonPatchOperation = new Operation<RepairPatchData>("replace", "DateCompleted", null, "2020-03-27");
+
+            jsonPatchDocument.Operations.Add(jsonPatchOperation);
+
+            var okResult = _repairController.UpdateRepair(1, jsonPatchDocument);
+
+            Assert.IsType<OkObjectResult>(okResult);
+        }
+
+        [Fact]
+        public void UpdateRepair_ReturnedResponseHasResponseMessage()
+        {
+            var jsonPatchDocument = new JsonPatchDocument<RepairPatchData>();
+            var jsonPatchOperation = new Operation<RepairPatchData>("replace", "DateCompleted", null, "2020-03-27");
+
+            jsonPatchDocument.Operations.Add(jsonPatchOperation);
+
+            ActionResult<RepairPatchData> actionResult = _repairController.UpdateRepair(1, jsonPatchDocument);
+
+            OkObjectResult createdResult = actionResult.Result as OkObjectResult;
+            var result = createdResult.Value;
+
+            Assert.Equal("The repair has been updated.", result);
+        }
+
+        [Fact]
+        public void UpdateRepair_ReturnsBadRequest()
+        {
+            var jsonPatchDocument = new JsonPatchDocument<RepairPatchData>();
+            var jsonPatchOperation = new Operation<RepairPatchData>("replace", "DateCompleted", null, "2020-03-27");
+
+            jsonPatchDocument.Operations.Add(jsonPatchOperation);
+
+            _repairController.ModelState.AddModelError("Name", "Required");
+
+            var badResponse = _repairController.UpdateRepair(1, jsonPatchDocument);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
+        }
+
+        [Fact]
+        public void UpdateRepair_NonExistingrepairPatchDataReturnsBadRequest()
+        {
+            var jsonPatchDocument = new JsonPatchDocument<RepairPatchData>();
+            var jsonPatchOperation = new Operation<RepairPatchData>("replace", "DateCompleted", null, "2020-03-27");
+
+            jsonPatchDocument.Operations.Add(jsonPatchOperation);
+
+            var badResponse = _repairController.UpdateRepair(123456, jsonPatchDocument);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
+        }
+
+        [Fact]
+        public void UpdateRepair_DateCompletedIsBeforeDateOpenedReturnsBadRequest()
+        {
+            RepairData repair = new RepairData
+            {
+                Customer = 1
+            };
+
+            var createdRepair = _fixItTrackerRepository.AddRepair(repair.Repair);
+
+            var jsonPatchDocument = new JsonPatchDocument<RepairPatchData>();
+            var jsonPatchOperation = new Operation<RepairPatchData>("replace", "DateCompleted", null, createdRepair.DateOpened.AddYears(-1).ToShortDateString());
+
+            jsonPatchDocument.Operations.Add(jsonPatchOperation);
+
+            var badResponse = _repairController.UpdateRepair(createdRepair.RepairID, jsonPatchDocument);
 
             Assert.IsType<BadRequestObjectResult>(badResponse);
         }

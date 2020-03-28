@@ -204,5 +204,12 @@ namespace fix_it_tracker_back_end_unit_tests
             itemTypeToReplace.Model = itemType.Model;
             itemTypeToReplace.Manufacturer = itemType.Manufacturer;
         }
+
+        public void UpdateRepair(Repair repair)
+        {
+            var repairToUpdate = _repairs.SingleOrDefault(r => r.RepairID == repair.RepairID);
+
+            repairToUpdate = repair;
+        }
     }
 }

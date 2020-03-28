@@ -55,7 +55,7 @@ namespace fix_it_tracker_back_end
             .AddJsonOptions(opts =>
             {
                 opts.JsonSerializerOptions.IgnoreNullValues = true;
-            });
+            }).AddNewtonsoftJson();
             services.AddAutoMapper(typeof(DataContext).Assembly);
             services.AddControllers();
             services.AddScoped<IFixItTrackerRepository, FixItTrackerRepository>();
