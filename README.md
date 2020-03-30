@@ -42,7 +42,7 @@ This project is currently a work in progress.  Right now, the following has been
 - Entity Framework Core
 - Domain model
 - Test data for the database
-- GET, POST, PUT, PATCH statements
+- GET, POST, PUT, PATCH, and DELETE statements
 - Domain Transfer Objects with Automapping
 - Documentation using Swagger
 - Repository Pattern
@@ -50,6 +50,5 @@ This project is currently a work in progress.  Right now, the following has been
 - Error Handling
 
 ## Coming Soon to the Project
-- DELETE statements
 - Filtering and Paging
 - Security and Authentication
