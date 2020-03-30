@@ -123,5 +123,24 @@ namespace fix_it_tracker_back_end.Controllers
 
             return Ok("The customer has been updated.");
         }
+
+        /// <summary>
+        /// Remove a single customer from the database.
+        /// </summary>
+        /// <param name="id">The existing customer id.</param>
+        /// <returns>Returns OK with a confirmation message.</returns>
+        [HttpDelete("{id}")]
+        public ActionResult RemoveCustomer(int id)
+        {
+            var existingCustomer = _dataContext.GetCustomer(id);
+
+            if (existingCustomer == null)
+            {
+                return BadRequest($"Customer ID: {id} doesn't exist");
+            }
+
+            _dataContext.RemoveCustomer(existingCustomer);
+            return Ok("The Customer has been deleted along with all associated repairs.");
+        }
     }
 }
