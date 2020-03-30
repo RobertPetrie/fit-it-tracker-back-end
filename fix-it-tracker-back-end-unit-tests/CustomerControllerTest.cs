@@ -253,5 +253,33 @@ namespace fix_it_tracker_back_end_unit_tests
 
             Assert.IsType<BadRequestObjectResult>(badResponse);
         }
+
+        // DELETE api/customer/5
+        [Fact]
+        public void RemoveCustomer_ReturnsOkResult()
+        {
+            var okResult = _customerController.RemoveCustomer(1);
+
+            Assert.IsType<OkObjectResult>(okResult);
+        }
+
+        [Fact]
+        public void RemoveCustomer_ReturnedResponseHasResponseMessage()
+        {
+            ActionResult<CustomerData> actionResult = _customerController.RemoveCustomer(1);
+            OkObjectResult removeResult = actionResult.Result as OkObjectResult;
+            var result = removeResult.Value;
+
+            Assert.Equal("The Customer has been deleted along with all associated repairs.", result);
+        }
+
+        [Fact]
+        public void RemoveCustomer_NonExistingCustomerReturnsBadRequest()
+        {
+
+            var badResponse = _customerController.RemoveCustomer(1234);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
+        }
     }
 }

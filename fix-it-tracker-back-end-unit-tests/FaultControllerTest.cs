@@ -148,5 +148,33 @@ namespace fix_it_tracker_back_end_unit_tests
 
             Assert.IsType<BadRequestObjectResult>(badResponse);
         }
+
+        // DELETE api/fault/5
+        [Fact]
+        public void RemoveFault_ReturnsOkResult()
+        {
+            var okResult = _faultController.RemoveFault(1);
+
+            Assert.IsType<OkObjectResult>(okResult);
+        }
+
+        [Fact]
+        public void RemoveFault_ReturnedResponseHasResponseMessage()
+        {
+            ActionResult<FaultData> actionResult = _faultController.RemoveFault(1);
+            OkObjectResult removeResult = actionResult.Result as OkObjectResult;
+            var result = removeResult.Value;
+
+            Assert.Equal("The Fault has been deleted along with all associated repairs.", result);
+        }
+
+        [Fact]
+        public void RemoveFault_NonExistingFaultReturnsBadRequest()
+        {
+
+            var badResponse = _faultController.RemoveFault(1234);
+
+            Assert.IsType<BadRequestObjectResult>(badResponse);
+        }
     }
 }

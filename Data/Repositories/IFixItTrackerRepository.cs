@@ -51,5 +51,9 @@ namespace fix_it_tracker_back_end.Data.Repositories
         void ReplaceItemType(int itemTypeId, ItemType itemType);
 
         void UpdateRepair(Repair repair);
+
+        void RemoveFault(Fault fault);
+
+        void RemoveCustomer(Customer customer);
     }
 }

@@ -211,5 +211,15 @@ namespace fix_it_tracker_back_end_unit_tests
 
             repairToUpdate = repair;
         }
+
+        public void RemoveFault(Fault fault)
+        {
+            _faults.Remove(fault);
+        }
+
+        public void RemoveCustomer(Customer customer)
+        {
+            _customers.Remove(customer);
+        }
     }
 }

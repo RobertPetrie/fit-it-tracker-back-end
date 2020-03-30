@@ -90,5 +90,24 @@ namespace fix_it_tracker_back_end.Controllers
 
             return Created(uri, "Fault Created");
         }
+
+        /// <summary>
+        /// Reemove a single fault from the database.
+        /// </summary>
+        /// <param name="id">The existing fault id.</param>
+        /// <returns>Returns OK with a confirmation message.</returns>
+        [HttpDelete("{id}")]
+        public ActionResult RemoveFault(int id)
+        {
+            var existingFault = _dataContext.GetFault(id);
+
+            if (existingFault == null)
+            {
+                return BadRequest($"Fault ID: {id} doesn't exist");
+            }
+
+            _dataContext.RemoveFault(existingFault);
+            return Ok("The Fault has been deleted along with all associated repairs.");
+        }
     }
 }

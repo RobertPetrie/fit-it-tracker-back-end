@@ -231,5 +231,17 @@ namespace fix_it_tracker_back_end.Data.Repositories
             _dataContext.Update(repair);
             _dataContext.SaveChanges();
         }
+
+        public void RemoveFault(Fault fault)
+        {
+            _dataContext.Remove(fault);
+            _dataContext.SaveChanges();
+        }
+
+        public void RemoveCustomer(Customer customer)
+        {
+            _dataContext.Remove(customer);
+            _dataContext.SaveChanges();
+        }
     }
 }
