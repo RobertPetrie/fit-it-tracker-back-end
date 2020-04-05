@@ -25,11 +25,14 @@ namespace fix_it_tracker_back_end.Controllers
         /// <summary>
         /// Returns a list of customers: customerId, customerName, customerAddress, customerPostalCode, customerCity, customerProvince
         /// </summary>
+        /// <param name="name">Filter customers where the name contains this</param>
+        /// <param name="city">Filter customers where the city contains this</param>
+        /// <param name="province">Filter customers where the province contains this</param>
         // GET api/customer
         [HttpGet]
-        public ActionResult<IEnumerable<Customer>> GetCustomers()
+        public ActionResult<IEnumerable<Customer>> GetCustomers(string name, string city, string province)
         {
-            var customers = _dataContext.GetCustomers();
+            var customers = _dataContext.GetCustomers(name, city, province);
             var customersToReturn = _mapper.Map<IEnumerable<CustomerGetDto>>(customers);
 
             if (customersToReturn.Count() == 0)
