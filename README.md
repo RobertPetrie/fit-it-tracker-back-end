@@ -48,7 +48,8 @@ This project is currently a work in progress.  Right now, the following has been
 - Repository Pattern
 - Unit Testing
 - Error Handling
+- Filtering
 
 ## Coming Soon to the Project
-- Filtering and Paging
+- Paging
 - Security and Authentication

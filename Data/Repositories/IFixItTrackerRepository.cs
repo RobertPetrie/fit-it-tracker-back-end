@@ -10,7 +10,7 @@ namespace fix_it_tracker_back_end.Data.Repositories
 {
     public interface IFixItTrackerRepository
     {
-        IEnumerable<Customer> GetCustomers();
+        IEnumerable<Customer> GetCustomers(string name, string city, string province);
         Customer GetCustomer(int id);
 
         IEnumerable<Fault> GetFaults();
@@ -22,7 +22,7 @@ namespace fix_it_tracker_back_end.Data.Repositories
         IEnumerable<ItemType> GetItemTypes();
         ItemType GetItemType(int id);
 
-        IEnumerable<Repair> GetRepairs();
+        IEnumerable<Repair> GetRepairs(DateTime? dateOpented, DateTime? dateCompleted);
         IEnumerable<Repair> GetCustomerRepairs(int id);
         Repair GetRepair(int id);
 

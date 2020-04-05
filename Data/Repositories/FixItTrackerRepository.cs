@@ -24,9 +24,27 @@ namespace fix_it_tracker_back_end.Data.Repositories
             return customer;
         }
 
-        public IEnumerable<Customer> GetCustomers()
+        public IEnumerable<Customer> GetCustomers(string name, string city, string province)
         {
-            var customers = _dataContext.Customers;
+            IQueryable<Customer> customers = _dataContext.Customers;
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                customers = customers.Where(c => c.Name.ToLower().Contains(name.ToLower()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(city))
+            {
+                customers = customers.Where(c => c.City.ToLower().Contains(city.ToLower()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(province))
+            {
+                customers = customers.Where(c => c.Province.ToLower().Contains(province.ToLower()));
+            }
+
+            customers = customers.OrderBy(c => c.Name);
+
             return customers;
         }
 
@@ -95,9 +113,22 @@ namespace fix_it_tracker_back_end.Data.Repositories
             return repair;
         }
 
-        public IEnumerable<Repair> GetRepairs()
+        public IEnumerable<Repair> GetRepairs(DateTime? dateOpened, DateTime? dateCompleted)
         {
-            var repairs = _dataContext.Repairs;
+            IQueryable<Repair> repairs = _dataContext.Repairs;
+
+            repairs = _dataContext.Repairs;
+
+            if (dateOpened != null)
+            {
+                repairs = repairs.Where(r => r.DateOpened >= dateOpened);
+            }
+
+            if (dateCompleted != null)
+            {
+                repairs = repairs.Where(r => r.DateCompleted <= dateCompleted);
+            }
+
             return repairs;
         }
 

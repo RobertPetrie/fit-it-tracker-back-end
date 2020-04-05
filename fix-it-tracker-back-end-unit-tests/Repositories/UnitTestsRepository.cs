@@ -36,7 +36,7 @@ namespace fix_it_tracker_back_end_unit_tests
 
         public Customer AddCustomer(Customer customer)
         {
-            customer.CustomerID = GetCustomers().LastOrDefault().CustomerID++;
+            customer.CustomerID = GetCustomers(null, null, null).LastOrDefault().CustomerID++;
             _customers.Add(customer);
             return customer;
         }
@@ -71,7 +71,7 @@ namespace fix_it_tracker_back_end_unit_tests
 
         public Repair AddRepair(Repair repair)
         {
-            repair.RepairID = GetRepairs().LastOrDefault().RepairID++;
+            repair.RepairID = GetRepairs(null, null).LastOrDefault().RepairID++;
             _repairs.Add(repair);
             return repair;
         }
@@ -125,7 +125,7 @@ namespace fix_it_tracker_back_end_unit_tests
             return _repairs.Where(c => c.Customer.CustomerID == id);
         }
 
-        public IEnumerable<Customer> GetCustomers()
+        public IEnumerable<Customer> GetCustomers(string name, string city, string province)
         {
             return _customers;
         }
@@ -169,7 +169,7 @@ namespace fix_it_tracker_back_end_unit_tests
             return repair;
         }
 
-        public IEnumerable<Repair> GetRepairs()
+        public IEnumerable<Repair> GetRepairs(DateTime? dateOpented, DateTime? dateCompleted)
         {
             return _repairs;
         }
