@@ -31,21 +31,21 @@ namespace fix_it_tracker_back_end_unit_tests
         [Fact]
         public void GetCustomers_ReturnsOkResult()
         {
-            var okResult = _customerController.GetCustomers();
+            var okResult = _customerController.GetCustomers(null, null, null);
             Assert.IsType<OkObjectResult>(okResult.Result);
         }
 
         [Fact]
         public void GetCustomers_ReturnsRightItem()
         {
-            var okResult = _customerController.GetCustomers().Result as OkObjectResult;
+            var okResult = _customerController.GetCustomers(null, null, null).Result as OkObjectResult;
             Assert.Equal(EXISTING_CUSTOMER_ID, (okResult.Value as List<CustomerGetDto>).FirstOrDefault(c => c.CustomerID == EXISTING_CUSTOMER_ID).CustomerID);
         }
 
         [Fact]
         public void GetCustomers_ReturnsAllItems()
         {
-            var okResult = _customerController.GetCustomers().Result as OkObjectResult;
+            var okResult = _customerController.GetCustomers(null, null, null).Result as OkObjectResult;
             var items = Assert.IsType<List<CustomerGetDto>>(okResult.Value);
             Assert.Equal(NUM_OF_CUSTOMERS, items.Count);
         }
@@ -56,7 +56,7 @@ namespace fix_it_tracker_back_end_unit_tests
             _fixItTrackerRepository = new UnitTestsRepository(noCustomers: true);
             _customerController = new CustomerController(_fixItTrackerRepository, UnitTestsMapping.GetMapper());
 
-            var okResult = _customerController.GetCustomers();
+            var okResult = _customerController.GetCustomers(null, null, null);
             Assert.IsType<NotFoundObjectResult>(okResult.Result);
         }
 
