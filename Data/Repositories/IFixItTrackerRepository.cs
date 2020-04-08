@@ -22,7 +22,7 @@ namespace fix_it_tracker_back_end.Data.Repositories
         IEnumerable<ItemType> GetItemTypes();
         ItemType GetItemType(int id);
 
-        IEnumerable<Repair> GetRepairs(DateTime? dateOpented, DateTime? dateCompleted);
+        IEnumerable<Repair> GetRepairs(DateTime? dateOpented, DateTime? dateCompleted, int? pageNumber, int? pageSize);
         IEnumerable<Repair> GetCustomerRepairs(int id);
         Repair GetRepair(int id);
 

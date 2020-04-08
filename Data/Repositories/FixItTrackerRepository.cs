@@ -113,7 +113,7 @@ namespace fix_it_tracker_back_end.Data.Repositories
             return repair;
         }
 
-        public IEnumerable<Repair> GetRepairs(DateTime? dateOpened, DateTime? dateCompleted)
+        public IEnumerable<Repair> GetRepairs(DateTime? dateOpened, DateTime? dateCompleted, int? pageNumber, int? pageSize)
         {
             IQueryable<Repair> repairs = _dataContext.Repairs;
 
@@ -129,7 +129,10 @@ namespace fix_it_tracker_back_end.Data.Repositories
                 repairs = repairs.Where(r => r.DateCompleted <= dateCompleted);
             }
 
-            return repairs;
+            var currentPageNumer = pageNumber ?? 1;
+            var currentPageSize = pageSize ?? 10;
+
+            return repairs.Skip((currentPageNumer - 1) * currentPageSize).Take(currentPageSize);
         }
 
         public IEnumerable<Repair> GetCustomerRepairs(int customerId)

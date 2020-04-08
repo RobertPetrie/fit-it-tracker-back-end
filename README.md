@@ -49,7 +49,7 @@ This project is currently a work in progress.  Right now, the following has been
 - Unit Testing
 - Error Handling
 - Filtering
+- Paging
 
 ## Coming Soon to the Project
-- Paging
 - Security and Authentication

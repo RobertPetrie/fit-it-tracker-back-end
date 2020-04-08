@@ -39,21 +39,21 @@ namespace fix_it_tracker_back_end_unit_tests
         [Fact]
         public void GetRepairs_ReturnsOkResult()
         {
-            var okResult = _repairController.GetRepairs(null, null);
+            var okResult = _repairController.GetRepairs(null, null, null, null);
             Assert.IsType<OkObjectResult>(okResult.Result);
         }
 
         [Fact]
         public void GetRepairs_ReturnsRightItem()
         {
-            var okResult = _repairController.GetRepairs(null, null).Result as OkObjectResult;
+            var okResult = _repairController.GetRepairs(null, null, null, null).Result as OkObjectResult;
             Assert.Equal(EXISTING_REPAIR_ID, (okResult.Value as List<RepairGetDto>).FirstOrDefault(r => r.RepairID == EXISTING_REPAIR_ID).RepairID);
         }
 
         [Fact]
         public void GetRepairs_ReturnsAllItems()
         {
-            var okResult = _repairController.GetRepairs(null, null).Result as OkObjectResult;
+            var okResult = _repairController.GetRepairs(null, null, null, null).Result as OkObjectResult;
             var items = Assert.IsType<List<RepairGetDto>>(okResult.Value);
             Assert.Equal(NUM_OF_REPAIRS, items.Count);
         }
@@ -64,7 +64,7 @@ namespace fix_it_tracker_back_end_unit_tests
             _fixItTrackerRepository = new UnitTestsRepository(noRepairs: true);
             _repairController = new RepairController(_fixItTrackerRepository, UnitTestsMapping.GetMapper());
 
-            var okResult = _repairController.GetRepairs(null, null);
+            var okResult = _repairController.GetRepairs(null, null, null, null);
             Assert.IsType<NotFoundObjectResult>(okResult.Result);
         }
 

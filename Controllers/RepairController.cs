@@ -33,12 +33,14 @@ namespace fix_it_tracker_back_end.Controllers
         /// </summary>
         /// <param name="dateOpened">Returns repairs that are equal or greater than the date opened</param>
         /// <param name="dateCompleted">Returns repairs that are equal or less than the date completed</param>
+        /// <param name="pageNumber">The page number that you want returned</param>
+        /// <param name="pageSize">The number of repairs you want to appear on a page</param>
         // GET api/repair
         [HttpGet]
-        public ActionResult<IEnumerable<Repair>> GetRepairs(DateTime? dateOpened, DateTime? dateCompleted)
+        public ActionResult<IEnumerable<Repair>> GetRepairs(DateTime? dateOpened, DateTime? dateCompleted, int? pageNumber, int? pageSize)
         {
 
-            var repairs = _dataContext.GetRepairs(dateOpened, dateCompleted);
+            var repairs = _dataContext.GetRepairs(dateOpened, dateCompleted, pageNumber, pageSize);
             var repairsToReturn = _mapper.Map<IEnumerable<RepairGetDto>>(repairs);
 
             if (repairsToReturn.Count() == 0)
