@@ -71,7 +71,7 @@ namespace fix_it_tracker_back_end_unit_tests
 
         public Repair AddRepair(Repair repair)
         {
-            repair.RepairID = GetRepairs(null, null).LastOrDefault().RepairID++;
+            repair.RepairID = GetRepairs(null, null, null, null).LastOrDefault().RepairID++;
             _repairs.Add(repair);
             return repair;
         }
@@ -169,7 +169,7 @@ namespace fix_it_tracker_back_end_unit_tests
             return repair;
         }
 
-        public IEnumerable<Repair> GetRepairs(DateTime? dateOpented, DateTime? dateCompleted)
+        public IEnumerable<Repair> GetRepairs(DateTime? dateOpented, DateTime? dateCompleted, int? pageNumber, int? pageSize)
         {
             return _repairs;
         }
