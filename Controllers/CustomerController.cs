@@ -6,11 +6,14 @@ using fix_it_tracker_back_end.Model;
 using Microsoft.AspNetCore.Mvc;
 using fix_it_tracker_back_end.Data.Repositories;
 using fix_it_tracker_back_end.Model.BindingTargets;
+using Microsoft.AspNetCore.Authorization;
+using fix_it_tracker_back_end.Helpers;
 
 namespace fix_it_tracker_back_end.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = UserRoles.AdminAccess)]
     public class CustomerController : ControllerBase
     {
         private readonly IFixItTrackerRepository _dataContext;
@@ -30,10 +33,35 @@ namespace fix_it_tracker_back_end.Controllers
         /// <param name="province">Filter customers where the province contains this</param>
         // GET api/customer
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<Customer>> GetCustomers(string name, string city, string province)
         {
             var customers = _dataContext.GetCustomers(name, city, province);
             var customersToReturn = _mapper.Map<IEnumerable<CustomerGetDto>>(customers);
+
+            if (HttpContext != null)
+            {
+                if (!HttpContext.User.IsInRole(UserRoles.AdminAccess))
+                {
+                    foreach (var customer in customersToReturn)
+                    {
+                        customer.Address = null;
+                        customer.City = null;
+                        customer.Province = null;
+                        customer.PostalCode = null;
+                    }
+                }
+            }
+            else
+            {
+                foreach (var customer in customersToReturn)
+                {
+                    customer.Address = null;
+                    customer.City = null;
+                    customer.Province = null;
+                    customer.PostalCode = null;
+                }
+            }
 
             if (customersToReturn.Count() == 0)
             {
@@ -73,6 +101,7 @@ namespace fix_it_tracker_back_end.Controllers
         /// <returns>Created customer with a header on how to access it.</returns>
         // POST api/customer
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult CreateCustomer([FromBody] CustomerData customerData)
         {
             if (!ModelState.IsValid)
