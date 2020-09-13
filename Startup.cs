@@ -58,6 +58,9 @@ namespace fix_it_tracker_back_end
             //services.AddDbContext<DataContext>(options =>
             //    options.UseSqlServer(connectionString));
 
+            //services.AddDbContext<IdentityDataContext>(options =>
+            //options.UseSqlServer(Configuration["ConnectionStrings:SQLServerIdentity"]));
+
             services.AddControllersWithViews()
             .AddJsonOptions(opts =>
             {
