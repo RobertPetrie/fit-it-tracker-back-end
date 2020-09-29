@@ -11,7 +11,7 @@ namespace fix_it_tracker_back_end.Model
 {
     public static class IdentitySeedData
     {
-        private const string adminUser = "Administrator";
+        public const string adminUser = "Administrator";
         private const string adminPassword = "MySecret123$";
         private const string adminRole = UserRoles.AdminAccess;
 
