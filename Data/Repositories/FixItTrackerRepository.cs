@@ -1,11 +1,16 @@
-﻿using fix_it_tracker_back_end.Model;
+﻿using fix_it_tracker_back_end.Helpers;
+using fix_it_tracker_back_end.Model;
 using fix_it_tracker_back_end.Model.BindingTargets;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace fix_it_tracker_back_end.Data.Repositories
 {
@@ -13,9 +18,15 @@ namespace fix_it_tracker_back_end.Data.Repositories
     {
         private readonly DataContext _dataContext;
 
-        public FixItTrackerRepository(DataContext dataContext)
+        private UserManager<IdentityUser> userManager;
+
+        private SignInManager<IdentityUser> signInManager;
+
+        public FixItTrackerRepository(DataContext dataContext, IServiceProvider provider)
         {
             _dataContext = dataContext;
+            userManager = provider.GetRequiredService<UserManager<IdentityUser>>();
+            signInManager = provider.GetRequiredService<SignInManager<IdentityUser>>();
         }
 
         public Customer GetCustomer(int id)
@@ -276,6 +287,118 @@ namespace fix_it_tracker_back_end.Data.Repositories
         {
             _dataContext.Remove(customer);
             _dataContext.SaveChanges();
+        }
+
+        public async Task<bool> DoLogin(Login login)
+        {
+            IdentityUser identityUser = await userManager.FindByNameAsync(login.Name);
+
+            if (identityUser != null)
+            {
+                await signInManager.SignOutAsync();
+                SignInResult signInResult = await signInManager.PasswordSignInAsync(identityUser, login.Password, false, false);
+                return signInResult.Succeeded;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> DoLogout(Login login)
+        {
+            IdentityUser identityUser = await userManager.FindByNameAsync(login.Name);
+
+            if (identityUser != null)
+            {
+                await signInManager.SignOutAsync();
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> CreateAccount(Login login)
+        {
+            IdentityUser identityUser = new IdentityUser(login.Name);
+            identityUser.Email = login.Email;
+
+            IdentityResult identityResult = await userManager.CreateAsync(identityUser, login.Password);
+
+            return identityResult.Succeeded;
+        }
+
+        public async Task<bool> UpdateAccountName(Login login)
+        {
+            IdentityUser identityUser = await userManager.FindByNameAsync(login.Name);
+
+            if (identityUser != null && login.Name != IdentitySeedData.adminUser)
+            {
+                IdentityUser identityUserExists = await userManager.FindByNameAsync(login.NewName);
+
+                if (identityUserExists == null)
+                {
+                    IdentityResult identityResult = await userManager.SetUserNameAsync(identityUser, login.NewName);
+
+                    return identityResult.Succeeded;
+                }
+            }
+
+            return false;
+        }
+
+        public async Task<bool> UpdateAccountPassword(Login login)
+        {
+            IdentityUser identityUser = await userManager.FindByNameAsync(login.Name);
+
+            if (identityUser != null)
+            {
+                bool validPassword = await userManager.CheckPasswordAsync(identityUser, login.Password);
+
+                if (validPassword)
+                {
+                    IdentityResult identityResult = await userManager.ChangePasswordAsync(identityUser, login.Password, login.NewPassword);
+
+                    return identityResult.Succeeded;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return false;
+        }
+
+        public async Task<bool> AddToAdminRole(Login login)
+        {
+            IdentityUser identityUser = await userManager.FindByNameAsync(login.Name);
+
+            if (identityUser != null)
+            {
+                IdentityResult identityResult = await userManager.AddToRoleAsync(identityUser, UserRoles.AdminAccess);
+
+                return identityResult.Succeeded;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> RemoveAccount(Login login)
+        {
+            IdentityUser identityUser = await userManager.FindByNameAsync(login.Name);
+
+            if (identityUser != null && login.Name != IdentitySeedData.adminUser)
+            {
+                IdentityResult identityResult = await userManager.DeleteAsync(identityUser);
+
+                return identityResult.Succeeded;
+            }
+
+            return false;
+        }
+
+        public IEnumerable<string> GetAllAccounts()
+        {
+            return userManager.Users.Select(x => x.UserName).ToList();
         }
     }
 }

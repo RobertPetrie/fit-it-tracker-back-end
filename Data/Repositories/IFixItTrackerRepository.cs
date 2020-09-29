@@ -55,5 +55,21 @@ namespace fix_it_tracker_back_end.Data.Repositories
         void RemoveFault(Fault fault);
 
         void RemoveCustomer(Customer customer);
+
+        Task<bool> DoLogin(Login login);
+
+        Task<bool> DoLogout(Login loginName);
+
+        Task<bool> CreateAccount(Login login);
+
+        Task<bool> UpdateAccountName(Login login);
+
+        Task<bool> UpdateAccountPassword(Login login);
+
+        Task<bool> AddToAdminRole(Login login);
+
+        Task<bool> RemoveAccount(Login login);
+
+        IEnumerable<string> GetAllAccounts();
     }
 }
