@@ -25,6 +25,10 @@ This is a simple web API with basic CRUD operations used to interact with a data
 > Note: Ignore the certificate error messages
 > You can test the API by expanding a call and selecting **Try it out**
 
+## Administrator Login Account
+Administrator
+MySecret123$
+
 ## Technologies Used
 - .NET Core 3.0
 - Entity Framework Core Sqlite 3.1.2
@@ -36,7 +40,7 @@ This is a simple web API with basic CRUD operations used to interact with a data
 https://tinyurl.com/qm4sz66
 
 ## Current Stage of the Project
-This project is currently a work in progress.  Right now, the following has been completed:
+The following has been completed:
 
 - Continuous Integration
 - Entity Framework Core
@@ -50,6 +54,4 @@ This project is currently a work in progress.  Right now, the following has been
 - Error Handling
 - Filtering
 - Paging
-
-## Coming Soon to the Project
 - Security and Authentication
