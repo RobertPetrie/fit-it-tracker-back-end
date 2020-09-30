@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace fix_it_tracker_back_end_unit_tests
 {
@@ -220,6 +221,46 @@ namespace fix_it_tracker_back_end_unit_tests
         public void RemoveCustomer(Customer customer)
         {
             _customers.Remove(customer);
+        }
+
+        public Task<bool> DoLogin(Login login)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DoLogout(Login loginName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> CreateAccount(Login login)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UpdateAccountName(Login login)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UpdateAccountPassword(Login login)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> AddToAdminRole(Login login)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> RemoveAccount(Login login)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<string> GetAllAccounts()
+        {
+            throw new NotImplementedException();
         }
     }
 }

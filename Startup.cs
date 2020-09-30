@@ -22,6 +22,7 @@ using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using fix_it_tracker_back_end.Helpers;
+using Microsoft.AspNetCore.Identity;
 
 namespace fix_it_tracker_back_end
 {
@@ -43,6 +44,12 @@ namespace fix_it_tracker_back_end
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlite(connectionString));
 
+            services.AddDbContext<IdentityDataContext>(options =>
+                options.UseSqlite(Configuration["ConnectionStrings:SQLiteIdentity"]));
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+            .AddEntityFrameworkStores<IdentityDataContext>();
+
             //  Use this for SQL Server
 
             //string connectionString =
@@ -50,6 +57,9 @@ namespace fix_it_tracker_back_end
 
             //services.AddDbContext<DataContext>(options =>
             //    options.UseSqlServer(connectionString));
+
+            //services.AddDbContext<IdentityDataContext>(options =>
+            //options.UseSqlServer(Configuration["ConnectionStrings:SQLServerIdentity"]));
 
             services.AddControllersWithViews()
             .AddJsonOptions(opts =>
@@ -71,7 +81,7 @@ namespace fix_it_tracker_back_end
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
         {
             if (env.IsDevelopment())
             {
@@ -113,6 +123,8 @@ namespace fix_it_tracker_back_end
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -125,6 +137,8 @@ namespace fix_it_tracker_back_end
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Fix IT Tracker API");
             });
+
+            IdentitySeedData.SeedDatabase(services).Wait();
         }
     }
 }
